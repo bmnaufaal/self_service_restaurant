@@ -25,8 +25,16 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         emit(MenuLoadingState());
         final List<dynamic> dummy = dummyData;
         List<MenuItem> menuData = [];
+
         for (final data in dummy) {
-          if (data['name'] == event.search) {
+          if (event.search != '') {
+            if (data['name']
+                .toString()
+                .toLowerCase()
+                .contains(event.search.toLowerCase())) {
+              menuData.add(MenuItem.fromJson(data));
+            }
+          } else {
             menuData.add(MenuItem.fromJson(data));
           }
         }

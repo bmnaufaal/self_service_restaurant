@@ -245,6 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             title: data[index].name,
                             price: data[index].price,
                             image: data[index].image,
+                            description: data[index].description,
                           );
                         },
                         gridDelegate:
