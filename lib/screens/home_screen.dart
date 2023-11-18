@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lunapos_akpsi/bloc/cart/cart_event.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_state.dart';
@@ -11,6 +12,9 @@ import 'package:lunapos_akpsi/widgets/buttons/checkout_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/custom_search_bar.dart';
 import 'package:lunapos_akpsi/widgets/list_items/item_card.dart';
+
+import '../bloc/cart/cart_bloc.dart';
+import '../bloc/cart/cart_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,8 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isMakananRinganActive = false;
   bool isMakananPenutupActive = false;
   bool isMinumanActive = false;
-  int itemCount = 0;
+  List<MenuItem> cart = [];
   int totalPrice = 0;
+  int loyaltyPoint = 0;
   List<MenuItem> data = [];
   Timer? _debounce;
 
@@ -91,14 +96,51 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: false,
         actions: [
-          Container(
-            padding: const EdgeInsets.only(right: 15),
-            child: PrimaryButton(
-              title: 'Masuk',
-              icon: Icons.person_outline,
-              onPressed: () {},
+          if (isLoggedIn == false)
+            Container(
+              padding: const EdgeInsets.only(right: 15),
+              child: PrimaryButton(
+                title: 'Masuk',
+                icon: Icons.person_outline,
+                onPressed: () {
+                  setState(() {
+                    isLoggedIn = !isLoggedIn;
+                  });
+                },
+              ),
             ),
-          ),
+          if (isLoggedIn == true)
+            TextButton(
+              onPressed: () {},
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.stars_outlined,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    loyaltyPoint.toString(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if (isLoggedIn == true)
+            Container(
+              padding: const EdgeInsets.only(right: 15),
+              child: PrimaryButton(
+                title: 'User',
+                icon: Icons.person_outline,
+                onPressed: () {
+                  setState(() {
+                    isLoggedIn = !isLoggedIn;
+                  });
+                },
+              ),
+            ),
         ],
       ),
       body: Container(
@@ -246,6 +288,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             price: data[index].price,
                             image: data[index].image,
                             description: data[index].description,
+                            order: (item) {
+                              BlocProvider.of<CartBloc>(context).add(
+                                AddCartItem(cart, item),
+                              );
+                            },
                           );
                         },
                         gridDelegate:
@@ -261,15 +308,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.only(bottom: 15),
-              child: CheckoutButton(
-                itemCount: itemCount,
-                totalPrice: totalPrice,
-                icon: Icons.shopping_basket,
-                onPressed: () {},
-              ),
+            BlocBuilder<CartBloc, CartState>(
+              builder: (context, state) {
+                if (state is CartLoadedState) {
+                  int temp = 0;
+                  for (final item in state.data) {
+                    temp += item.price;
+                  }
+                  totalPrice = temp;
+                  data = state.data;
+                }
+
+                return Container(
+                  alignment: Alignment.bottomCenter,
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: CheckoutButton(
+                    itemCount: data.length,
+                    totalPrice: totalPrice,
+                    icon: Icons.shopping_basket,
+                    onPressed: () {},
+                  ),
+                );
+              },
             ),
           ],
         ),

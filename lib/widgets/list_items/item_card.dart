@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:lunapos_akpsi/bloc/cart/cart_bloc.dart';
+import 'package:lunapos_akpsi/bloc/cart/cart_event.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/detail_modal.dart';
 
@@ -10,12 +13,14 @@ class ItemCard extends StatefulWidget {
     required this.price,
     required this.image,
     required this.description,
+    required this.order,
   });
 
   final String title;
   final int price;
   final String image;
   final String description;
+  final dynamic order;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -50,12 +55,19 @@ class _ItemCardState extends State<ItemCard> {
         ),
         child: Column(
           children: [
-            Image.asset(
-              'assets/images/${widget.image}',
-              // width: double.infinity,
+            Container(
               width: double.infinity,
               height: 150,
-              fit: BoxFit.fill,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/${widget.image}'),
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -81,7 +93,9 @@ class _ItemCardState extends State<ItemCard> {
                 title: 'Pesan',
                 icon: Icons.add,
                 maxWidth: true,
-                onPressed: () {},
+                onPressed: () {
+                  widget.order(widget.title);
+                },
               ),
             ),
             const SizedBox(height: 8),

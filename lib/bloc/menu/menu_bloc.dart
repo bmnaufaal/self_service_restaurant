@@ -54,6 +54,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             menuData.add(MenuItem.fromJson(data));
           }
         }
+
         emit(MenuLoadedState(menuData));
       } catch (error) {
         emit(MenuErrorState());

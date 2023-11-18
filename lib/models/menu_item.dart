@@ -4,6 +4,7 @@ class MenuItem {
   final String category;
   final String description;
   final String image;
+  final int count;
 
   MenuItem({
     required this.name,
@@ -11,6 +12,7 @@ class MenuItem {
     required this.category,
     required this.description,
     required this.image,
+    required this.count,
   });
 
   factory MenuItem.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,12 @@ class MenuItem {
       category: json['category'],
       description: json['description'],
       image: json['image'],
+      count: 0,
     );
+  }
+
+  @override
+  String toString() {
+    return 'MenuItem{name: $name, price: $price, category: $category, description: $description, image: $image, count: $count}';
   }
 }

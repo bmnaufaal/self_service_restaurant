@@ -1,7 +1,7 @@
 List<dynamic> dummyData = [
   {
     "name": "Nasi Goreng",
-    "price": 300000,
+    "price": 30000,
     "category": "Nasi",
     "description":
         "Nasi goreng spesial dengan campuran bumbu pilihan, sayuran segar, dan daging ayam. Rasanya lezat dan cocok untuk penggemar nasi goreng.",
