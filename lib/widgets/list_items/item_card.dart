@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({super.key});
+  const ItemCard({
+    super.key,
+    required this.title,
+    required this.price,
+    required this.image,
+  });
+
+  final String title;
+  final int price;
+  final String image;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -21,23 +30,25 @@ class _ItemCardState extends State<ItemCard> {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/example.png',
+            'assets/images/${widget.image}',
+            // width: double.infinity,
             width: double.infinity,
-            fit: BoxFit.fill,
+            height: 150,
+            fit: BoxFit.scaleDown,
           ),
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             alignment: Alignment.centerLeft,
-            child: const Text(
-              'Nasi Goreng',
-              style: TextStyle(fontWeight: FontWeight.w700),
+            child: Text(
+              widget.title,
+              style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             alignment: Alignment.centerLeft,
-            child: const Text('Rp30.000'),
+            child: Text('Rp${widget.price}'),
           ),
           const SizedBox(height: 24),
           Padding(

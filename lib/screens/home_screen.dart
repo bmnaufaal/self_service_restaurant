@@ -1,4 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
+import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
+import 'package:lunapos_akpsi/bloc/menu/menu_state.dart';
+import 'package:lunapos_akpsi/models/menu_item.dart';
 import 'package:lunapos_akpsi/widgets/buttons/category_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/checkout_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
@@ -23,7 +30,50 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isMinumanActive = false;
   int itemCount = 0;
   int totalPrice = 0;
-  List<String> items = ['Box 1', 'Box 2', 'Box 3', 'Box 4', 'Box 5'];
+  List<MenuItem> data = [];
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void activateCategory(String category) {
+    isSemuaActive = false;
+    isNasiActive = false;
+    isMieActive = false;
+    isSayuranActive = false;
+    isMakananRinganActive = false;
+    isMakananPenutupActive = false;
+    isMinumanActive = false;
+
+    switch (category) {
+      case 'Semua':
+        isSemuaActive = true;
+        break;
+      case 'Nasi':
+        isNasiActive = true;
+        break;
+      case 'Mie':
+        isMieActive = true;
+        break;
+      case 'Sayuran':
+        isSayuranActive = true;
+        break;
+      case 'Makanan Ringan':
+        isMakananRinganActive = true;
+        break;
+      case 'Makanan Penutup':
+        isMakananPenutupActive = true;
+        break;
+      case 'Minuman':
+        isMinumanActive = true;
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Column(
               children: [
-                const CustomSearchBar(),
+                CustomSearchBar(
+                  onChanged: (value) {
+                    if (_debounce?.isActive ?? false) _debounce?.cancel();
+                    _debounce = Timer(const Duration(milliseconds: 500), () {
+                      BlocProvider.of<MenuBloc>(context).add(SearchItem(value));
+                    });
+                  },
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   alignment: Alignment.centerLeft,
@@ -77,60 +134,129 @@ class _HomeScreenState extends State<HomeScreen> {
                       CategoryButton(
                         title: 'Semua',
                         isActive: isSemuaActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isSemuaActive = true;
+                            activateCategory('Semua');
+                          });
+                          BlocProvider.of<MenuBloc>(context).add(GetMenuItem());
+                        },
                       ),
                       const SizedBox(width: 15),
                       CategoryButton(
                         title: 'Nasi',
                         isActive: isNasiActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isNasiActive = true;
+                            activateCategory('Nasi');
+                          });
+                          BlocProvider.of<MenuBloc>(context)
+                              .add(const SelectCategoryItem('Nasi'));
+                        },
                       ),
                       const SizedBox(width: 15),
                       CategoryButton(
                         title: 'Mie',
                         isActive: isMieActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isMieActive = true;
+                            activateCategory('Mie');
+                          });
+                          BlocProvider.of<MenuBloc>(context)
+                              .add(const SelectCategoryItem('Mie'));
+                        },
                       ),
                       const SizedBox(width: 15),
                       CategoryButton(
                         title: 'Sayuran',
                         isActive: isSayuranActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isSayuranActive = true;
+                            activateCategory('Sayuran');
+                          });
+                          BlocProvider.of<MenuBloc>(context)
+                              .add(const SelectCategoryItem('Sayuran'));
+                        },
                       ),
                       const SizedBox(width: 15),
                       CategoryButton(
                         title: 'Makanan Ringan',
                         isActive: isMakananRinganActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isMakananRinganActive = true;
+                            activateCategory('Makanan Ringan');
+                          });
+                          BlocProvider.of<MenuBloc>(context)
+                              .add(const SelectCategoryItem('Makanan Ringan'));
+                        },
                       ),
                       const SizedBox(width: 15),
                       CategoryButton(
                         title: 'Makanan Penutup',
                         isActive: isMakananPenutupActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isMakananPenutupActive = true;
+                            activateCategory('Makanan Penutup');
+                          });
+                          BlocProvider.of<MenuBloc>(context)
+                              .add(const SelectCategoryItem('Makanan Penutup'));
+                        },
                       ),
                       const SizedBox(width: 15),
                       CategoryButton(
                         title: 'Minuman',
                         isActive: isMinumanActive,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isMinumanActive = true;
+                            activateCategory('Minuman');
+                          });
+                          BlocProvider.of<MenuBloc>(context)
+                              .add(const SelectCategoryItem('Minuman'));
+                        },
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 15),
-                Expanded(
-                  child: GridView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) => const ItemCard(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      crossAxisCount: 2,
-                      mainAxisExtent: 300,
-                    ),
-                  ),
+                BlocBuilder<MenuBloc, MenuState>(
+                  builder: (context, state) {
+                    if (state is MenuLoadingState) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (state is MenuLoadedState) {
+                      data = state.data;
+                    }
+
+                    return Expanded(
+                      child: GridView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return ItemCard(
+                            title: data[index].name,
+                            price: data[index].price,
+                            image: data[index].image,
+                          );
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
+                          mainAxisExtent: 300,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
