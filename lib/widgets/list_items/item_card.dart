@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:lunapos_akpsi/bloc/cart/cart_bloc.dart';
-import 'package:lunapos_akpsi/bloc/cart/cart_event.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/detail_modal.dart';
 
@@ -14,6 +11,9 @@ class ItemCard extends StatefulWidget {
     required this.image,
     required this.description,
     required this.order,
+    required this.count,
+    required this.onAdd,
+    required this.onRemove,
   });
 
   final String title;
@@ -21,12 +21,21 @@ class ItemCard extends StatefulWidget {
   final String image;
   final String description;
   final dynamic order;
+  final int count;
+  final dynamic onAdd;
+  final dynamic onRemove;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
 }
 
 class _ItemCardState extends State<ItemCard> {
+  @override
+  void initState() {
+    super.initState();
+    print(widget.count);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -87,17 +96,37 @@ class _ItemCardState extends State<ItemCard> {
               ),
             ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: PrimaryButton(
-                title: 'Pesan',
-                icon: Icons.add,
-                maxWidth: true,
-                onPressed: () {
-                  widget.order(widget.title);
-                },
+            if (widget.count != 0)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      widget.onRemove(widget.title);
+                    },
+                    icon: const Icon(Icons.remove),
+                  ),
+                  Text(widget.count.toString()),
+                  IconButton(
+                    onPressed: () {
+                      widget.onAdd(widget.title);
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
               ),
-            ),
+            if (widget.count == 0)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: PrimaryButton(
+                  title: 'Pesan',
+                  icon: Icons.add,
+                  maxWidth: true,
+                  onPressed: () {
+                    widget.order(widget.title);
+                  },
+                ),
+              ),
             const SizedBox(height: 8),
           ],
         ),

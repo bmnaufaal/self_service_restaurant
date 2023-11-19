@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lunapos_akpsi/bloc/cart/cart_bloc.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
 import 'package:lunapos_akpsi/screens/home_screen.dart';
@@ -14,12 +13,6 @@ void main() {
           create: (context) {
             final MenuBloc bloc = MenuBloc();
             bloc.add(GetMenuItem());
-            return bloc;
-          },
-        ),
-        BlocProvider<CartBloc>(
-          create: (context) {
-            final CartBloc bloc = CartBloc();
             return bloc;
           },
         ),

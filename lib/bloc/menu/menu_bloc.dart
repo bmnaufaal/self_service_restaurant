@@ -60,5 +60,62 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         emit(MenuErrorState());
       }
     });
+
+    on<AddCountItem>((event, emit) async {
+      try {
+        emit(MenuLoadingState());
+        List<MenuItem> menuData = List.from(event.list);
+
+        for (int i = 0; i < menuData.length; i++) {
+          final data = menuData[i];
+
+          if (event.name == data.name) {
+            int newCount = data.count + 1;
+
+            menuData[i] = MenuItem(
+              name: data.name,
+              price: data.price,
+              category: data.category,
+              description: data.description,
+              image: data.image,
+              count: newCount,
+            );
+          }
+        }
+        emit(MenuLoadedState(menuData));
+      } catch (error) {
+        emit(MenuErrorState());
+      }
+    });
+
+    on<RemoveCountItem>((event, emit) async {
+      try {
+        emit(MenuLoadingState());
+        List<MenuItem> menuData = List.from(event.list);
+
+        for (int i = 0; i < menuData.length; i++) {
+          final data = menuData[i];
+
+          if (event.name == data.name) {
+            int newCount = data.count - 1;
+            if (newCount <= 0) {
+              newCount = 0;
+            }
+
+            menuData[i] = MenuItem(
+              name: data.name,
+              price: data.price,
+              category: data.category,
+              description: data.description,
+              image: data.image,
+              count: newCount,
+            );
+          }
+        }
+        emit(MenuLoadedState(menuData));
+      } catch (error) {
+        emit(MenuErrorState());
+      }
+    });
   }
 }
