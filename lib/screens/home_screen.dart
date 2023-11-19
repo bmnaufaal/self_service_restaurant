@@ -11,6 +11,7 @@ import 'package:lunapos_akpsi/widgets/buttons/checkout_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/custom_search_bar.dart';
 import 'package:lunapos_akpsi/widgets/list_items/item_card.dart';
+import 'package:lunapos_akpsi/widgets/modals/login_modal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -110,9 +111,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Masuk',
                 icon: Icons.person_outline,
                 onPressed: () {
-                  setState(() {
-                    isLoggedIn = !isLoggedIn;
-                  });
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return LoginModal(
+                        onPressed: () {
+                          setState(() {
+                            isLoggedIn = !isLoggedIn;
+                          });
+                          Navigator.of(context).pop();
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),

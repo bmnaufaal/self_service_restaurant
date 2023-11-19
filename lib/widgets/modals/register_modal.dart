@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
-import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
 
-class LoginModal extends StatefulWidget {
-  const LoginModal({
+class RegisterModal extends StatefulWidget {
+  const RegisterModal({
     super.key,
     required this.onPressed,
   });
@@ -12,10 +11,10 @@ class LoginModal extends StatefulWidget {
   final dynamic onPressed;
 
   @override
-  State<LoginModal> createState() => _LoginModalState();
+  State<RegisterModal> createState() => _RegisterModalState();
 }
 
-class _LoginModalState extends State<LoginModal> {
+class _RegisterModalState extends State<RegisterModal> {
   final Map<String, TextEditingController> controller = {
     'username': TextEditingController(),
     'password': TextEditingController(),
@@ -33,7 +32,7 @@ class _LoginModalState extends State<LoginModal> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(
-        'Login',
+        'Register',
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 36,
@@ -82,42 +81,13 @@ class _LoginModalState extends State<LoginModal> {
                 return null;
               },
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Text('Forgot Password?'),
-              ),
-            ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 32),
             PrimaryButton(
               onPressed: () {
                 widget.onPressed();
               },
               maxWidth: true,
-              title: 'Login',
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return RegisterModal(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    },
-                  );
-                },
-                child: const Text('Register'),
-              ),
+              title: 'Register',
             ),
           ],
         ),
