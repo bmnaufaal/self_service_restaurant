@@ -11,10 +11,11 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         emit(MenuLoadingState());
         final List<dynamic> dummy = dummyData;
         List<MenuItem> menuData = [];
+        List<MenuItem> cart = event.cart;
         for (final data in dummy) {
           menuData.add(MenuItem.fromJson(data));
         }
-        emit(MenuLoadedState(menuData));
+        emit(MenuLoadedState(menuData, cart));
       } catch (error) {
         emit(MenuErrorState());
       }
@@ -38,7 +39,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             menuData.add(MenuItem.fromJson(data));
           }
         }
-        emit(MenuLoadedState(menuData));
+        emit(MenuLoadedState(menuData, event.cart));
       } catch (error) {
         emit(MenuErrorState());
       }
@@ -55,7 +56,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
           }
         }
 
-        emit(MenuLoadedState(menuData));
+        emit(MenuLoadedState(menuData, event.cart));
       } catch (error) {
         emit(MenuErrorState());
       }
@@ -65,7 +66,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       try {
         emit(MenuLoadingState());
         List<MenuItem> menuData = List.from(event.list);
-
         for (int i = 0; i < menuData.length; i++) {
           final data = menuData[i];
 
@@ -82,7 +82,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             );
           }
         }
-        emit(MenuLoadedState(menuData));
+        List<MenuItem> cart =
+            menuData.where((menuItem) => menuItem.count > 0).toList();
+        emit(MenuLoadedState(menuData, cart));
       } catch (error) {
         emit(MenuErrorState());
       }
@@ -112,7 +114,10 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             );
           }
         }
-        emit(MenuLoadedState(menuData));
+
+        List<MenuItem> cart =
+            menuData.where((menuItem) => menuItem.count > 0).toList();
+        emit(MenuLoadedState(menuData, cart));
       } catch (error) {
         emit(MenuErrorState());
       }

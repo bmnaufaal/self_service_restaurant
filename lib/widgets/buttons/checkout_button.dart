@@ -40,7 +40,10 @@ class _CheckoutButtonState extends State<CheckoutButton> {
         ),
         title: Text('${widget.itemCount} Item'),
         trailing: Text(
-          'Rp${NumberFormat('#,##0').format(widget.totalPrice)}',
+          NumberFormat.currency(
+            locale: 'id_ID',
+            symbol: 'Rp',
+          ).format(widget.totalPrice),
           style: const TextStyle(
             fontWeight: FontWeight.w700,
           ),

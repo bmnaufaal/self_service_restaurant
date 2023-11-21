@@ -39,8 +39,7 @@ class _RegisterModalState extends State<RegisterModal> {
           color: Color(0xFF53387D),
         ),
       ),
-      content: Container(
-        padding: const EdgeInsets.all(8),
+      content: SizedBox(
         width: 300,
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lunapos_akpsi/models/menu_item.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/detail_modal.dart';
 
@@ -14,6 +15,7 @@ class ItemCard extends StatefulWidget {
     required this.count,
     required this.onAdd,
     required this.onRemove,
+    required this.list
   });
 
   final String title;
@@ -24,6 +26,7 @@ class ItemCard extends StatefulWidget {
   final int count;
   final dynamic onAdd;
   final dynamic onRemove;
+  final List<MenuItem> list;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -33,7 +36,6 @@ class _ItemCardState extends State<ItemCard> {
   @override
   void initState() {
     super.initState();
-    print(widget.count);
   }
 
   @override
@@ -46,12 +48,18 @@ class _ItemCardState extends State<ItemCard> {
           elevation: 0,
           showDragHandle: true,
           builder: (_) {
-            return DetailModal(
-              title: widget.title,
-              price: widget.price,
-              image: widget.image,
-              description: widget.description,
-            );
+            return Builder(builder: (BuildContext context) {
+              return DetailModal(
+                title: widget.title,
+                onAdd: () {
+                  widget.onAdd(widget.title);
+                },
+                onRemove: () {
+                  widget.onRemove(widget.title);
+                },
+                list: widget.list,
+              );
+            });
           },
         );
       },

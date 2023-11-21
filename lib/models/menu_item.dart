@@ -30,4 +30,15 @@ class MenuItem {
   String toString() {
     return 'MenuItem{name: $name, price: $price, category: $category, description: $description, image: $image, count: $count}';
   }
+
+  MenuItem copyWith({int? count}) {
+    return MenuItem(
+      name: name,
+      price: price,
+      category: category,
+      description: description,
+      image: image,
+      count: count ?? this.count,
+    );
+  }
 }

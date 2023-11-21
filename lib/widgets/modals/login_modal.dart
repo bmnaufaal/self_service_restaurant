@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
+import 'package:lunapos_akpsi/widgets/modals/otp_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
 
 class LoginModal extends StatefulWidget {
@@ -40,8 +41,7 @@ class _LoginModalState extends State<LoginModal> {
           color: Color(0xFF53387D),
         ),
       ),
-      content: Container(
-        padding: const EdgeInsets.all(8),
+      content: SizedBox(
         width: 300,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -111,6 +111,16 @@ class _LoginModalState extends State<LoginModal> {
                       return RegisterModal(
                         onPressed: () {
                           Navigator.of(context).pop();
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return OTPModal(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                          );
                         },
                       );
                     },

@@ -8,20 +8,26 @@ abstract class MenuEvent extends Equatable {
 }
 
 class GetMenuItem extends MenuEvent {
+  const GetMenuItem(this.cart);
+  final List<MenuItem> cart;
   @override
   List<Object?> get props => [];
 }
 
 class SearchItem extends MenuEvent {
-  const SearchItem(this.search);
+  const SearchItem(this.cart, this.search);
+  final List<MenuItem> cart;
   final String search;
+
   @override
   List<Object?> get props => [];
 }
 
 class SelectCategoryItem extends MenuEvent {
-  const SelectCategoryItem(this.category);
+  const SelectCategoryItem(this.cart, this.category);
+  final List<MenuItem> cart;
   final String category;
+
   @override
   List<Object?> get props => [];
 }

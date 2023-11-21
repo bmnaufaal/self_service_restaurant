@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
-import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
 import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<MenuBloc>(
-          create: (context) {
-            final MenuBloc bloc = MenuBloc();
-            bloc.add(GetMenuItem());
-            return bloc;
-          },
-        ),
-      ],
-      child: const Lunapos(),
-    ),
+    
+      const Lunapos(),
+    
   );
 }
 

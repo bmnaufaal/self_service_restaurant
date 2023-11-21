@@ -29,11 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isMakananRinganActive = false;
   bool isMakananPenutupActive = false;
   bool isMinumanActive = false;
-  List<MenuItem> cart = [];
   int totalCount = 0;
   int totalPrice = 0;
   int loyaltyPoint = 0;
   List<MenuItem> data = [];
+  List<MenuItem> cart = [];
   Timer? _debounce;
 
   @override
@@ -161,201 +161,230 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
         ],
       ),
-      body: BlocBuilder<MenuBloc, MenuState>(
-        builder: (context, state) {
-          if (state is MenuLoadedState) {
-            data = state.data;
-            totalCount = calculateTotalCount(data);
-            totalPrice = calculateTotalPrice(data);
-          }
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<MenuBloc>(
+            create: (context) {
+              final MenuBloc bloc = MenuBloc();
+              bloc.add(GetMenuItem(cart));
+              return bloc;
+            },
+          ),
+        ],
+        child: BlocBuilder<MenuBloc, MenuState>(
+          builder: (context, state) {
+            if (state is MenuLoadedState) {
+              data = state.data;
+              cart = state.cart;
+              totalCount = calculateTotalCount(cart);
+              totalPrice = calculateTotalPrice(cart);
+            }
 
-          return Container(
-            padding: const EdgeInsets.all(15),
-            color: Colors.white,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    CustomSearchBar(
-                      onChanged: (value) {
-                        if (_debounce?.isActive ?? false) _debounce?.cancel();
-                        _debounce =
-                            Timer(const Duration(milliseconds: 500), () {
-                          BlocProvider.of<MenuBloc>(context)
-                              .add(SearchItem(value));
-                        });
-                      },
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Kategori',
-                        style: TextStyle(
-                          color: Colors.black.withOpacity(0.5),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CategoryButton(
-                            title: 'Semua',
-                            isActive: isSemuaActive,
-                            onPressed: () {
-                              setState(() {
-                                isSemuaActive = true;
-                                activateCategory('Semua');
-                              });
-                              BlocProvider.of<MenuBloc>(context)
-                                  .add(GetMenuItem());
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CategoryButton(
-                            title: 'Nasi',
-                            isActive: isNasiActive,
-                            onPressed: () {
-                              setState(() {
-                                isNasiActive = true;
-                                activateCategory('Nasi');
-                              });
-                              BlocProvider.of<MenuBloc>(context)
-                                  .add(const SelectCategoryItem('Nasi'));
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CategoryButton(
-                            title: 'Mie',
-                            isActive: isMieActive,
-                            onPressed: () {
-                              setState(() {
-                                isMieActive = true;
-                                activateCategory('Mie');
-                              });
-                              BlocProvider.of<MenuBloc>(context)
-                                  .add(const SelectCategoryItem('Mie'));
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CategoryButton(
-                            title: 'Sayuran',
-                            isActive: isSayuranActive,
-                            onPressed: () {
-                              setState(() {
-                                isSayuranActive = true;
-                                activateCategory('Sayuran');
-                              });
-                              BlocProvider.of<MenuBloc>(context)
-                                  .add(const SelectCategoryItem('Sayuran'));
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CategoryButton(
-                            title: 'Makanan Ringan',
-                            isActive: isMakananRinganActive,
-                            onPressed: () {
-                              setState(() {
-                                isMakananRinganActive = true;
-                                activateCategory('Makanan Ringan');
-                              });
-                              BlocProvider.of<MenuBloc>(context).add(
-                                  const SelectCategoryItem('Makanan Ringan'));
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CategoryButton(
-                            title: 'Makanan Penutup',
-                            isActive: isMakananPenutupActive,
-                            onPressed: () {
-                              setState(() {
-                                isMakananPenutupActive = true;
-                                activateCategory('Makanan Penutup');
-                              });
-                              BlocProvider.of<MenuBloc>(context).add(
-                                  const SelectCategoryItem('Makanan Penutup'));
-                            },
-                          ),
-                          const SizedBox(width: 15),
-                          CategoryButton(
-                            title: 'Minuman',
-                            isActive: isMinumanActive,
-                            onPressed: () {
-                              setState(() {
-                                isMinumanActive = true;
-                                activateCategory('Minuman');
-                              });
-                              BlocProvider.of<MenuBloc>(context)
-                                  .add(const SelectCategoryItem('Minuman'));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    Expanded(
-                      child: GridView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return ItemCard(
-                            title: data[index].name,
-                            price: data[index].price,
-                            image: data[index].image,
-                            description: data[index].description,
-                            count: data[index].count,
-                            order: (item) {
-                              BlocProvider.of<MenuBloc>(context).add(
-                                AddCountItem(data, data[index].name),
-                              );
-                              // BlocProvider.of<CartBloc>(context).add(
-                              //   AddCartItem(cart, item),
-                              // );
-                            },
-                            onAdd: (item) {
-                              BlocProvider.of<MenuBloc>(context).add(
-                                AddCountItem(data, data[index].name),
-                              );
-                              // BlocProvider.of<CartBloc>(context).add(
-                              //   AddCartItem(cart, item),
-                              // );
-                            },
-                            onRemove: (item) {
-                              BlocProvider.of<MenuBloc>(context).add(
-                                RemoveCountItem(data, data[index].name),
-                              );
-                              // BlocProvider.of<CartBloc>(context).add(
-                              //   RemoveCartItem(cart, item),
-                              // );
-                            },
-                          );
+            return Container(
+              padding: const EdgeInsets.all(15),
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      CustomSearchBar(
+                        onChanged: (value) {
+                          if (_debounce?.isActive ?? false) _debounce?.cancel();
+                          _debounce =
+                              Timer(const Duration(milliseconds: 500), () {
+                            BlocProvider.of<MenuBloc>(context)
+                                .add(SearchItem(cart, value));
+                          });
                         },
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          crossAxisCount: 2,
-                          mainAxisExtent: 300,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Kategori',
+                          style: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: CheckoutButton(
-                    itemCount: totalCount,
-                    totalPrice: totalPrice,
-                    icon: Icons.shopping_basket,
-                    onPressed: () {},
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            CategoryButton(
+                              title: 'Semua',
+                              isActive: isSemuaActive,
+                              onPressed: () {
+                                setState(() {
+                                  isSemuaActive = true;
+                                  activateCategory('Semua');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(GetMenuItem(cart));
+                              },
+                            ),
+                            const SizedBox(width: 15),
+                            CategoryButton(
+                              title: 'Nasi',
+                              isActive: isNasiActive,
+                              onPressed: () {
+                                setState(() {
+                                  isNasiActive = true;
+                                  activateCategory('Nasi');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(SelectCategoryItem(
+                                  cart,
+                                  'Nasi',
+                                ));
+                              },
+                            ),
+                            const SizedBox(width: 15),
+                            CategoryButton(
+                              title: 'Mie',
+                              isActive: isMieActive,
+                              onPressed: () {
+                                setState(() {
+                                  isMieActive = true;
+                                  activateCategory('Mie');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(SelectCategoryItem(
+                                  cart,
+                                  'Mie',
+                                ));
+                              },
+                            ),
+                            const SizedBox(width: 15),
+                            CategoryButton(
+                              title: 'Sayuran',
+                              isActive: isSayuranActive,
+                              onPressed: () {
+                                setState(() {
+                                  isSayuranActive = true;
+                                  activateCategory('Sayuran');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(SelectCategoryItem(
+                                  cart,
+                                  'Sayuran',
+                                ));
+                              },
+                            ),
+                            const SizedBox(width: 15),
+                            CategoryButton(
+                              title: 'Makanan Ringan',
+                              isActive: isMakananRinganActive,
+                              onPressed: () {
+                                setState(() {
+                                  isMakananRinganActive = true;
+                                  activateCategory('Makanan Ringan');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(SelectCategoryItem(
+                                  cart,
+                                  'Makanan Ringan',
+                                ));
+                              },
+                            ),
+                            const SizedBox(width: 15),
+                            CategoryButton(
+                              title: 'Makanan Penutup',
+                              isActive: isMakananPenutupActive,
+                              onPressed: () {
+                                setState(() {
+                                  isMakananPenutupActive = true;
+                                  activateCategory('Makanan Penutup');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(SelectCategoryItem(
+                                  cart,
+                                  'Makanan Penutup',
+                                ));
+                              },
+                            ),
+                            const SizedBox(width: 15),
+                            CategoryButton(
+                              title: 'Minuman',
+                              isActive: isMinumanActive,
+                              onPressed: () {
+                                setState(() {
+                                  isMinumanActive = true;
+                                  activateCategory('Minuman');
+                                });
+                                BlocProvider.of<MenuBloc>(context)
+                                    .add(SelectCategoryItem(
+                                  cart,
+                                  'Minuman',
+                                ));
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Expanded(
+                        child: GridView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            MenuItem currentItem = data[index];
+                            int itemCountInCart = cart
+                                .where((cartItem) =>
+                                    cartItem.name == currentItem.name)
+                                .fold(
+                                    0, (sum, cartItem) => sum + cartItem.count);
+
+                            return ItemCard(
+                              title: currentItem.name,
+                              price: currentItem.price,
+                              image: currentItem.image,
+                              description: currentItem.description,
+                              count: itemCountInCart,
+                              order: (item) {
+                                BlocProvider.of<MenuBloc>(context).add(
+                                  AddCountItem(data, currentItem.name),
+                                );
+                              },
+                              onAdd: (item) {
+                                BlocProvider.of<MenuBloc>(context).add(
+                                  AddCountItem(data, currentItem.name),
+                                );
+                              },
+                              onRemove: (item) {
+                                BlocProvider.of<MenuBloc>(context).add(
+                                  RemoveCountItem(data, currentItem.name),
+                                );
+                              },
+                              list: data,
+                            );
+                          },
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            crossAxisCount: 2,
+                            mainAxisExtent: 300,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CheckoutButton(
+                      itemCount: totalCount,
+                      totalPrice: totalPrice,
+                      icon: Icons.shopping_basket,
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
