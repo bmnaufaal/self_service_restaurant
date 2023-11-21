@@ -66,24 +66,58 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       try {
         emit(MenuLoadingState());
         List<MenuItem> menuData = List.from(event.list);
-        for (int i = 0; i < menuData.length; i++) {
-          final data = menuData[i];
 
-          if (event.name == data.name) {
-            int newCount = data.count + 1;
+        int itemIndex =
+            menuData.indexWhere((menuItem) => menuItem.name == event.name);
 
-            menuData[i] = MenuItem(
-              name: data.name,
-              price: data.price,
-              category: data.category,
-              description: data.description,
-              image: data.image,
-              count: newCount,
-            );
-          }
+        if (itemIndex != -1) {
+          final data = menuData[itemIndex];
+          int newCount = data.count + 1;
+
+          menuData[itemIndex] = MenuItem(
+            name: data.name,
+            price: data.price,
+            category: data.category,
+            description: data.description,
+            image: data.image,
+            count: newCount,
+          );
+        } else {
+          menuData.add(MenuItem(
+            name: event.name,
+            price: menuData[itemIndex].price,
+            category: menuData[itemIndex].category,
+            description: menuData[itemIndex].description,
+            image: menuData[itemIndex].image,
+            count: 1,
+          ));
         }
-        List<MenuItem> cart =
-            menuData.where((menuItem) => menuItem.count > 0).toList();
+
+        List<MenuItem> cart = List.from(event.cart ?? []);
+
+        int cartIndex =
+            cart.indexWhere((cartItem) => cartItem.name == event.name);
+
+        if (cartIndex != -1) {
+          cart[cartIndex] = MenuItem(
+            name: event.name,
+            price: menuData[itemIndex].price,
+            category: menuData[itemIndex].category,
+            description: menuData[itemIndex].description,
+            image: menuData[itemIndex].image,
+            count: cart[cartIndex].count + 1,
+          );
+        } else {
+          cart.add(MenuItem(
+            name: menuData[itemIndex].name,
+            price: menuData[itemIndex].price,
+            category: menuData[itemIndex].category,
+            description: menuData[itemIndex].description,
+            image: menuData[itemIndex].image,
+            count: 1,
+          ));
+        }
+
         emit(MenuLoadedState(menuData, cart));
       } catch (error) {
         emit(MenuErrorState());
@@ -95,16 +129,16 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         emit(MenuLoadingState());
         List<MenuItem> menuData = List.from(event.list);
 
-        for (int i = 0; i < menuData.length; i++) {
-          final data = menuData[i];
+        int itemIndex =
+            menuData.indexWhere((menuItem) => menuItem.name == event.name);
 
-          if (event.name == data.name) {
+        if (itemIndex != -1) {
+          final data = menuData[itemIndex];
+
+          if (data.count >= 0) {
             int newCount = data.count - 1;
-            if (newCount <= 0) {
-              newCount = 0;
-            }
 
-            menuData[i] = MenuItem(
+            menuData[itemIndex] = MenuItem(
               name: data.name,
               price: data.price,
               category: data.category,
@@ -112,12 +146,28 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
               image: data.image,
               count: newCount,
             );
+
+            int cartIndex = event.cart
+                .indexWhere((cartItem) => cartItem.name == event.name);
+
+            if (cartIndex != -1) {
+              if (event.cart[cartIndex].count > 1) {
+                event.cart[cartIndex] = MenuItem(
+                  name: event.name,
+                  price: data.price,
+                  category: data.category,
+                  description: data.description,
+                  image: data.image,
+                  count: event.cart[cartIndex].count - 1,
+                );
+              } else {
+                event.cart.removeAt(cartIndex);
+              }
+            }
           }
         }
 
-        List<MenuItem> cart =
-            menuData.where((menuItem) => menuItem.count > 0).toList();
-        emit(MenuLoadedState(menuData, cart));
+        emit(MenuLoadedState(menuData, event.cart));
       } catch (error) {
         emit(MenuErrorState());
       }

@@ -6,6 +6,7 @@ import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_state.dart';
 import 'package:lunapos_akpsi/models/menu_item.dart';
+import 'package:lunapos_akpsi/screens/cart_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/category_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/checkout_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
@@ -343,17 +344,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               count: itemCountInCart,
                               order: (item) {
                                 BlocProvider.of<MenuBloc>(context).add(
-                                  AddCountItem(data, currentItem.name),
+                                  AddCountItem(data, currentItem.name, cart),
                                 );
                               },
                               onAdd: (item) {
                                 BlocProvider.of<MenuBloc>(context).add(
-                                  AddCountItem(data, currentItem.name),
+                                  AddCountItem(data, currentItem.name, cart),
                                 );
                               },
                               onRemove: (item) {
                                 BlocProvider.of<MenuBloc>(context).add(
-                                  RemoveCountItem(data, currentItem.name),
+                                  RemoveCountItem(data, currentItem.name, cart),
                                 );
                               },
                               list: data,
@@ -370,14 +371,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: CheckoutButton(
-                      itemCount: totalCount,
-                      totalPrice: totalPrice,
-                      icon: Icons.shopping_basket,
-                      onPressed: () {},
+                  Visibility(
+                    visible: totalCount != 0 ? true : false,
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: CheckoutButton(
+                        itemCount: totalCount,
+                        totalPrice: totalPrice,
+                        icon: Icons.shopping_basket,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) {
+                              return CartScreen(
+                                cart: cart,
+                                bloc: BlocProvider.of<MenuBloc>(context),
+                              );
+                            }),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],

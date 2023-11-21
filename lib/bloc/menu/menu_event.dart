@@ -33,16 +33,18 @@ class SelectCategoryItem extends MenuEvent {
 }
 
 class AddCountItem extends MenuEvent {
-  const AddCountItem(this.list, this.name);
+  const AddCountItem(this.list, this.name, this.cart);
   final List<MenuItem> list;
+  final List<MenuItem> cart;
   final String name;
   @override
   List<Object?> get props => [];
 }
 
 class RemoveCountItem extends MenuEvent {
-  const RemoveCountItem(this.list, this.name);
+  const RemoveCountItem(this.list, this.name, this.cart);
   final List<MenuItem> list;
+  final List<MenuItem> cart;
   final String name;
   @override
   List<Object?> get props => [];

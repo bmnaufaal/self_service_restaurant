@@ -1,6 +1,7 @@
 class MenuItem {
   final String name;
   final int price;
+  final int? memberPrice;
   final String category;
   final String description;
   final String image;
@@ -9,6 +10,7 @@ class MenuItem {
   MenuItem({
     required this.name,
     required this.price,
+    this.memberPrice,
     required this.category,
     required this.description,
     required this.image,
@@ -19,6 +21,7 @@ class MenuItem {
     return MenuItem(
       name: json['name'],
       price: json['price'],
+      memberPrice: json['memberPrice'],
       category: json['category'],
       description: json['description'],
       image: json['image'],
@@ -28,13 +31,14 @@ class MenuItem {
 
   @override
   String toString() {
-    return 'MenuItem{name: $name, price: $price, category: $category, description: $description, image: $image, count: $count}';
+    return 'MenuItem{name: $name, price: $price, memberPrice: $memberPrice, category: $category, description: $description, image: $image, count: $count}';
   }
 
   MenuItem copyWith({int? count}) {
     return MenuItem(
       name: name,
       price: price,
+      memberPrice: memberPrice,
       category: category,
       description: description,
       image: image,

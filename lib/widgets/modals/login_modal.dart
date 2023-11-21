@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
+import 'package:lunapos_akpsi/widgets/alerts/success_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
+import 'package:lunapos_akpsi/widgets/modals/forgot_password_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/otp_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
 
@@ -17,8 +20,11 @@ class LoginModal extends StatefulWidget {
 }
 
 class _LoginModalState extends State<LoginModal> {
+  final validOTP = '170845';
+  final registeredPhoneNumber = '081234567890';
+
   final Map<String, TextEditingController> controller = {
-    'username': TextEditingController(),
+    'phoneNumber': TextEditingController(),
     'password': TextEditingController(),
   };
 
@@ -58,7 +64,7 @@ class _LoginModalState extends State<LoginModal> {
             ),
             FormInput(
               hintText: '',
-              controller: controller['username']!,
+              controller: controller['phoneNumber']!,
               validator: (value) {
                 return null;
               },
@@ -86,7 +92,16 @@ class _LoginModalState extends State<LoginModal> {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ForgotPasswordModal(
+                          onPressed: () {},
+                        );
+                      });
+                },
                 child: const Text('Forgot Password?'),
               ),
             ),
@@ -104,23 +119,54 @@ class _LoginModalState extends State<LoginModal> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-
                   showDialog(
                     context: context,
                     builder: (context) {
                       return RegisterModal(
-                        onPressed: () {
+                        onPressed: (String value) {
                           Navigator.of(context).pop();
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return OTPModal(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            },
-                          );
+                          if (value != registeredPhoneNumber) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return OTPModal(
+                                  onPressed: (String value) {
+                                    bool validator = (value == validOTP);
+                                    if (validator == true) {
+                                      Navigator.of(context).pop();
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const SuccessAlert(
+                                            message:
+                                                'You have been successfully registered',
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const ErrorAlert(
+                                            message: 'OTP Number is incorrect',
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                );
+                              },
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const ErrorAlert(
+                                  message: 'Phone number is already registered',
+                                );
+                              },
+                            );
+                          }
                         },
                       );
                     },

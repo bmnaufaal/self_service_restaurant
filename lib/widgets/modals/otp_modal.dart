@@ -16,7 +16,12 @@ class OTPModal extends StatefulWidget {
 
 class _OTPModalState extends State<OTPModal> {
   final Map<String, TextEditingController> controller = {
-    'otp': TextEditingController(),
+    'first': TextEditingController(),
+    'second': TextEditingController(),
+    'third': TextEditingController(),
+    'forth': TextEditingController(),
+    'fifth': TextEditingController(),
+    'sixth': TextEditingController(),
   };
 
   @override
@@ -38,6 +43,8 @@ class _OTPModalState extends State<OTPModal> {
           color: Color(0xFF53387D),
         ),
       ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+      actionsPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
       content: SizedBox(
         width: 300,
         child: Row(
@@ -46,7 +53,7 @@ class _OTPModalState extends State<OTPModal> {
               child: FormInput(
                 hintText: '',
                 isPassword: true,
-                controller: controller['otp']!,
+                controller: controller['first']!,
                 validator: (value) {
                   return null;
                 },
@@ -57,7 +64,7 @@ class _OTPModalState extends State<OTPModal> {
               child: FormInput(
                 hintText: '',
                 isPassword: true,
-                controller: controller['otp']!,
+                controller: controller['second']!,
                 validator: (value) {
                   return null;
                 },
@@ -68,7 +75,7 @@ class _OTPModalState extends State<OTPModal> {
               child: FormInput(
                 hintText: '',
                 isPassword: true,
-                controller: controller['otp']!,
+                controller: controller['third']!,
                 validator: (value) {
                   return null;
                 },
@@ -79,7 +86,7 @@ class _OTPModalState extends State<OTPModal> {
               child: FormInput(
                 hintText: '',
                 isPassword: true,
-                controller: controller['otp']!,
+                controller: controller['forth']!,
                 validator: (value) {
                   return null;
                 },
@@ -90,7 +97,7 @@ class _OTPModalState extends State<OTPModal> {
               child: FormInput(
                 hintText: '',
                 isPassword: true,
-                controller: controller['otp']!,
+                controller: controller['fifth']!,
                 validator: (value) {
                   return null;
                 },
@@ -101,7 +108,7 @@ class _OTPModalState extends State<OTPModal> {
               child: FormInput(
                 hintText: '',
                 isPassword: true,
-                controller: controller['otp']!,
+                controller: controller['sixth']!,
                 validator: (value) {
                   return null;
                 },
@@ -113,7 +120,13 @@ class _OTPModalState extends State<OTPModal> {
       actions: [
         PrimaryButton(
           title: 'Submit',
-          onPressed: () {},
+          onPressed: () {
+            String otpValue = '';
+            controller.forEach((key, value) {
+              otpValue += value.text;
+            });
+            widget.onPressed(otpValue);
+          },
         )
       ],
     );

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
+import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
 
-class RegisterModal extends StatefulWidget {
-  const RegisterModal({
+class ForgotPasswordModal extends StatefulWidget {
+  const ForgotPasswordModal({
     super.key,
     required this.onPressed,
   });
@@ -11,10 +12,13 @@ class RegisterModal extends StatefulWidget {
   final dynamic onPressed;
 
   @override
-  State<RegisterModal> createState() => _RegisterModalState();
+  State<ForgotPasswordModal> createState() => _ForgotPasswordModalState();
 }
 
-class _RegisterModalState extends State<RegisterModal> {
+class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
+  final validOTP = '170845';
+  final registeredPhoneNumber = '081234567890';
+
   final Map<String, TextEditingController> controller = {
     'phoneNumber': TextEditingController(),
     'password': TextEditingController(),
@@ -32,10 +36,10 @@ class _RegisterModalState extends State<RegisterModal> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(
-        'Register',
+        'Forgot Password',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 36,
+          fontSize: 24,
           color: Color(0xFF53387D),
         ),
       ),
@@ -61,32 +65,11 @@ class _RegisterModalState extends State<RegisterModal> {
                 return null;
               },
             ),
-            const SizedBox(height: 8),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(bottom: 8),
-              child: const Text(
-                'Password',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            FormInput(
-              hintText: '',
-              isPassword: true,
-              controller: controller['password']!,
-              validator: (value) {
-                return null;
-              },
-            ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             PrimaryButton(
-              onPressed: () {
-                widget.onPressed(controller['phoneNumber']?.text);
-              },
               maxWidth: true,
-              title: 'Register',
+              title: 'Send Reset Password',
+              onPressed: () {},
             ),
           ],
         ),
