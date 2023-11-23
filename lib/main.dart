@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lunapos_akpsi/bloc/coupon/coupon_bloc.dart';
 import 'package:lunapos_akpsi/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:lunapos_akpsi/bloc/login/login_bloc.dart';
 import 'package:lunapos_akpsi/bloc/otp/otp_bloc.dart';
@@ -35,6 +36,12 @@ void main() {
         BlocProvider<ForgotPasswordBloc>(
           create: (context) {
             final ForgotPasswordBloc bloc = ForgotPasswordBloc();
+            return bloc;
+          },
+        ),
+        BlocProvider<CouponBloc>(
+          create: (context) {
+            final CouponBloc bloc = CouponBloc();
             return bloc;
           },
         ),

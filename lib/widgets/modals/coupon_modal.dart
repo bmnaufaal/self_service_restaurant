@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lunapos_akpsi/bloc/coupon/coupon_bloc.dart';
+import 'package:lunapos_akpsi/bloc/coupon/coupon_event.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
 
 class CouponModal extends StatefulWidget {
-  const CouponModal({
-    super.key,
-    required this.onPressed,
-  });
-
-  final dynamic onPressed;
+  const CouponModal({super.key});
 
   @override
   State<CouponModal> createState() => _CouponModalState();
@@ -49,8 +47,9 @@ class _CouponModalState extends State<CouponModal> {
         PrimaryButton(
           title: 'Submit',
           onPressed: () {
-            Navigator.of(context).pop();
-            widget.onPressed(controller['coupon']?.text);
+            BlocProvider.of<CouponBloc>(context).add(
+              PostCoupon(controller['coupon']!.text),
+            );
           },
         )
       ],

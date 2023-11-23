@@ -45,8 +45,6 @@ class PrimaryButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
-              minimumSize:
-                  maxWidth == true ? const Size(double.infinity, 50.0) : null,
             ),
             onPressed: onPressed,
             child: Text(
