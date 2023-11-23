@@ -18,10 +18,12 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
             detail = MenuItem(
               name: data.name,
               price: data.price,
+              memberPrice: data.memberPrice,
               category: data.category,
               description: data.description,
               image: data.image,
               count: data.count,
+              tag: data.tag,
             );
             break;
           }

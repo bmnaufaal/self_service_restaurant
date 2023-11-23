@@ -18,10 +18,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             cart[i] = MenuItem(
               name: data.name,
               price: data.price,
+              memberPrice: data.memberPrice,
               category: data.category,
               description: data.description,
               image: data.image,
               count: newCount,
+              tag: data.tag,
             );
           }
         }
@@ -46,10 +48,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
               cart[i] = MenuItem(
                 name: data.name,
                 price: data.price,
+                memberPrice: data.memberPrice,
                 category: data.category,
                 description: data.description,
                 image: data.image,
                 count: newCount,
+                tag: data.tag,
               );
             } else {
               cart.removeAt(i);

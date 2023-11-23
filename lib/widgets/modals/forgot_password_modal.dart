@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lunapos_akpsi/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:lunapos_akpsi/bloc/forgot_password/forgot_password_event.dart';
+import 'package:lunapos_akpsi/bloc/forgot_password/forgot_password_state.dart';
+import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
+import 'package:lunapos_akpsi/widgets/alerts/success_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
 import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
-  const ForgotPasswordModal({
-    super.key,
-    required this.onPressed,
-  });
-
-  final dynamic onPressed;
+  const ForgotPasswordModal({super.key});
 
   @override
   State<ForgotPasswordModal> createState() => _ForgotPasswordModalState();
@@ -34,46 +35,80 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text(
-        'Forgot Password',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 24,
-          color: Color(0xFF53387D),
-        ),
-      ),
-      content: SizedBox(
-        width: 300,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(bottom: 8),
-              child: const Text(
-                'Phone Number',
-                style: TextStyle(
-                  fontSize: 16,
+    return BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
+      listener: (context, state) {
+        if (state is ForgotPasswordLoadedState) {
+          Navigator.of(context).pop();
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const SuccessAlert(
+                message: 'We have sent password reset link',
+              );
+            },
+          );
+        }
+
+        if (state is ForgotPasswordErrorState) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorAlert(
+                message: state.error,
+              );
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        return AlertDialog(
+          title: const Text(
+            'Forgot Password',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 24,
+              color: Color(0xFF53387D),
+            ),
+          ),
+          content: SizedBox(
+            width: 300,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: const Text(
+                    'Phone Number',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
+                FormInput(
+                  hintText: '',
+                  controller: controller['phoneNumber']!,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                PrimaryButton(
+                  maxWidth: true,
+                  title: 'Send Reset Password',
+                  onPressed: () {
+                    BlocProvider.of<ForgotPasswordBloc>(context).add(
+                      PostForgotPassword(
+                        controller['phoneNumber']!.text,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-            FormInput(
-              hintText: '',
-              controller: controller['phoneNumber']!,
-              validator: (value) {
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            PrimaryButton(
-              maxWidth: true,
-              title: 'Send Reset Password',
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

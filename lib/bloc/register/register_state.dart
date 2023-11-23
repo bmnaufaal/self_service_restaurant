@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 
 @immutable
-abstract class LoginState extends Equatable {}
+abstract class RegisterState extends Equatable {}
 
-class LoginInitialState extends LoginState {
+class RegisterInitialState extends RegisterState {
   @override
   List<Object?> get props => [];
 }
 
-class LoginLoadingState extends LoginState {
+class RegisterLoadingState extends RegisterState {
   @override
   List<Object?> get props => [];
 }
 
-class LoginLoadedState extends LoginState {
-  LoginLoadedState(
+class RegisterLoadedState extends RegisterState {
+  RegisterLoadedState(
     this.userName,
     this.points,
   );
@@ -28,8 +28,8 @@ class LoginLoadedState extends LoginState {
   List<Object?> get props => [];
 }
 
-class LoginErrorState extends LoginState {
-  LoginErrorState(this.error);
+class RegisterErrorState extends RegisterState {
+  RegisterErrorState(this.error);
   final String error;
 
   @override

@@ -15,24 +15,41 @@ class DetailModal extends StatefulWidget {
     required this.title,
     required this.onAdd,
     required this.onRemove,
+    required this.isLoggedIn,
   });
 
   final List<MenuItem> list;
   final String title;
   final dynamic onAdd;
   final dynamic onRemove;
+  final bool isLoggedIn;
 
   @override
   State<DetailModal> createState() => _DetailModalState();
 }
 
 class _DetailModalState extends State<DetailModal> {
+  bool checkDiscount(int price, int memberPrice) {
+    if (widget.isLoggedIn == true) {
+      if (price != memberPrice) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String tag = '';
     int price = 0;
+    int? memberPrice;
     String image = '';
     String description = '';
     int count = 0;
+    bool isDiscounted = false;
 
     return BlocProvider<DetailBloc>(
       create: (context) {
@@ -44,9 +61,12 @@ class _DetailModalState extends State<DetailModal> {
         builder: (context, state) {
           if (state is DetailLoadedState) {
             price = state.data.price;
+            tag = state.data.tag;
+            memberPrice = state.data.memberPrice;
             image = state.data.image;
             description = state.data.description;
             count = state.data.count;
+            isDiscounted = checkDiscount(price, memberPrice!);
 
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
@@ -74,13 +94,38 @@ class _DetailModalState extends State<DetailModal> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp')
-                          .format(price),
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          NumberFormat.currency(locale: 'id_ID', symbol: 'Rp')
+                              .format(price),
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: (isDiscounted == true)
+                                ? Colors.red
+                                : Colors.black,
+                            decoration: isDiscounted == true
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                          ),
+                        ),
+                        const Spacer(),
+                        PrimaryButton(
+                          title: tag,
+                          customColor: Colors.green,
+                          onPressed: () {},
+                          icon: Icons.sell,
+                        )
+                      ],
                     ),
+                    if (isDiscounted == true)
+                      Text(
+                        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp')
+                            .format(memberPrice),
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                     const SizedBox(height: 16),
                     Text(
                       description,

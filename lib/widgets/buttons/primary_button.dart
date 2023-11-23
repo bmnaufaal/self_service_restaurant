@@ -7,12 +7,14 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.maxWidth,
+    this.customColor,
   });
 
   final String title;
   final dynamic onPressed;
   IconData? icon;
   bool? maxWidth;
+  Color? customColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PrimaryButton extends StatelessWidget {
             child: ElevatedButton.icon(
               icon: Icon(icon!, color: Colors.white),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF53387D),
+                backgroundColor: customColor ?? const Color(0xFF53387D),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -39,7 +41,7 @@ class PrimaryButton extends StatelessWidget {
           )
         : ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF53387D),
+              backgroundColor: customColor ?? const Color(0xFF53387D),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),

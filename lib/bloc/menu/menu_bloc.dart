@@ -77,19 +77,23 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
           menuData[itemIndex] = MenuItem(
             name: data.name,
             price: data.price,
+            memberPrice: data.memberPrice,
             category: data.category,
             description: data.description,
             image: data.image,
             count: newCount,
+            tag: data.tag,
           );
         } else {
           menuData.add(MenuItem(
             name: event.name,
             price: menuData[itemIndex].price,
+            memberPrice: menuData[itemIndex].memberPrice,
             category: menuData[itemIndex].category,
             description: menuData[itemIndex].description,
             image: menuData[itemIndex].image,
             count: 1,
+            tag: menuData[itemIndex].tag,
           ));
         }
 
@@ -102,19 +106,23 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
           cart[cartIndex] = MenuItem(
             name: event.name,
             price: menuData[itemIndex].price,
+            memberPrice: menuData[itemIndex].memberPrice,
             category: menuData[itemIndex].category,
             description: menuData[itemIndex].description,
             image: menuData[itemIndex].image,
             count: cart[cartIndex].count + 1,
+            tag: menuData[itemIndex].tag,
           );
         } else {
           cart.add(MenuItem(
             name: menuData[itemIndex].name,
             price: menuData[itemIndex].price,
+            memberPrice: menuData[itemIndex].memberPrice,
             category: menuData[itemIndex].category,
             description: menuData[itemIndex].description,
             image: menuData[itemIndex].image,
             count: 1,
+            tag: menuData[itemIndex].tag,
           ));
         }
 
@@ -141,10 +149,12 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
             menuData[itemIndex] = MenuItem(
               name: data.name,
               price: data.price,
+              memberPrice: data.memberPrice,
               category: data.category,
               description: data.description,
               image: data.image,
               count: newCount,
+              tag: data.tag,
             );
 
             int cartIndex = event.cart
@@ -155,10 +165,12 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
                 event.cart[cartIndex] = MenuItem(
                   name: event.name,
                   price: data.price,
+                  memberPrice: data.memberPrice,
                   category: data.category,
                   description: data.description,
                   image: data.image,
                   count: event.cart[cartIndex].count - 1,
+                  tag: data.tag,
                 );
               } else {
                 event.cart.removeAt(cartIndex);

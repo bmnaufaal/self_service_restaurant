@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-abstract class LoginEvent extends Equatable {
-  const LoginEvent();
+abstract class RegisterEvent extends Equatable {
+  const RegisterEvent();
 }
 
-class PostLogin extends LoginEvent {
-  const PostLogin(
+class PostRegister extends RegisterEvent {
+  const PostRegister(
     this.controller,
   );
 

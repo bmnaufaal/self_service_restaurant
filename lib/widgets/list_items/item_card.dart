@@ -5,21 +5,24 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/detail_modal.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({
+  ItemCard({
     super.key,
     required this.title,
     required this.price,
+    this.memberPrice,
     required this.image,
     required this.description,
     required this.order,
     required this.count,
     required this.onAdd,
     required this.onRemove,
-    required this.list
+    required this.list,
+    required this.isLoggedIn,
   });
 
   final String title;
   final int price;
+  int? memberPrice;
   final String image;
   final String description;
   final dynamic order;
@@ -27,6 +30,7 @@ class ItemCard extends StatefulWidget {
   final dynamic onAdd;
   final dynamic onRemove;
   final List<MenuItem> list;
+  final bool isLoggedIn;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -36,6 +40,18 @@ class _ItemCardState extends State<ItemCard> {
   @override
   void initState() {
     super.initState();
+  }
+
+  bool isDiscounted() {
+    if (widget.isLoggedIn == true) {
+      if (widget.price != widget.memberPrice) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -58,6 +74,7 @@ class _ItemCardState extends State<ItemCard> {
                   widget.onRemove(widget.title);
                 },
                 list: widget.list,
+                isLoggedIn: widget.isLoggedIn,
               );
             });
           },
@@ -101,8 +118,24 @@ class _ItemCardState extends State<ItemCard> {
               child: Text(
                 NumberFormat.currency(locale: 'id_ID', symbol: 'Rp')
                     .format(widget.price),
+                style: TextStyle(
+                  color: isDiscounted() == true ? Colors.red : Colors.black,
+                  decoration: isDiscounted() == true
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                ),
               ),
             ),
+            if (widget.isLoggedIn == true &&
+                isDiscounted() == true &&
+                widget.memberPrice != null)
+              Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    NumberFormat.currency(locale: 'id_ID', symbol: 'Rp')
+                        .format(widget.memberPrice ?? 0),
+                  )),
             const Spacer(),
             if (widget.count != 0)
               Row(
