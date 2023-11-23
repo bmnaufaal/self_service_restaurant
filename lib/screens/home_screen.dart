@@ -421,6 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return CartScreen(
                                     cart: cart,
                                     bloc: BlocProvider.of<MenuBloc>(context),
+                                    isLoggedIn: isLoggedIn,
                                   );
                                 }),
                               );

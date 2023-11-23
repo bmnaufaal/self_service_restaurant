@@ -7,7 +7,6 @@ import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/alerts/success_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
-import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
   const ForgotPasswordModal({super.key});

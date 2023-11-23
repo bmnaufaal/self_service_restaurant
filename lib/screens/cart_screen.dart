@@ -16,10 +16,12 @@ class CartScreen extends StatefulWidget {
     super.key,
     required this.cart,
     required this.bloc,
+    required this.isLoggedIn,
   });
 
   final List<MenuItem> cart;
   final MenuBloc bloc;
+  final bool isLoggedIn;
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -31,20 +33,50 @@ class _CartScreenState extends State<CartScreen> {
   bool isCouponValid = false;
   int discount = 0;
 
-  int calculateTotalPrice(List<MenuItem> items) {
-    return items
-        .where((item) => item.count > 0)
-        .fold(0, (sum, item) => sum + (item.price * item.count));
+  int calculateTotalPrice(List<MenuItem> items, bool isLoggedIn) {
+    int total = 0;
+    if (isLoggedIn == true) {
+      total = items
+          .where((item) => item.count > 0)
+          .fold(0, (sum, item) => sum + (item.memberPrice! * item.count));
+    } else {
+      total = items
+          .where((item) => item.count > 0)
+          .fold(0, (sum, item) => sum + (item.price * item.count));
+    }
+
+    return total;
   }
 
-  int calculateTotalPriceWithDiscount(List<MenuItem> items) {
-    return items.where((item) => item.count > 0).fold(
-        0, (sum, item) => sum + ((item.price * 0.9) * item.count).round());
+  int calculateTotalPriceWithDiscount(List<MenuItem> items, bool isLoggedIn) {
+    double total = 0;
+    if (isLoggedIn == true) {
+      total = items.where((item) => item.count > 0).fold(
+          0, (sum, item) => sum + ((item.memberPrice! * 0.9) * item.count));
+    } else {
+      total = items
+          .where((item) => item.count > 0)
+          .fold(0, (sum, item) => sum + (item.price * item.count));
+    }
+
+    return total as int;
   }
 
-  int calculateDiscountAmount(List<MenuItem> items) {
-    int totalAmount = calculateTotalPrice(cart);
-    int discountedAmount = calculateTotalPriceWithDiscount(cart);
+  bool checkDiscount(int price, int memberPrice) {
+    if (widget.isLoggedIn == true) {
+      if (price != memberPrice) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  int calculateDiscountAmount(List<MenuItem> items, bool isLoggedIn) {
+    int totalAmount = calculateTotalPrice(cart, isLoggedIn);
+    int discountedAmount = calculateTotalPriceWithDiscount(cart, isLoggedIn);
     return totalAmount - discountedAmount;
   }
 
@@ -99,6 +131,9 @@ class _CartScreenState extends State<CartScreen> {
                       child: ListView.builder(
                         itemCount: cart.length,
                         itemBuilder: (context, index) {
+                          int price = cart[index].price;
+                          int? memberPrice = cart[index].memberPrice;
+
                           return Card(
                             color: const Color(0xFF53387D),
                             child: Row(
@@ -140,11 +175,35 @@ class _CartScreenState extends State<CartScreen> {
                                               .format(
                                             cart[index].price,
                                           ),
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color: (checkDiscount(
+                                                        price, memberPrice!) ==
+                                                    true)
+                                                ? Colors.red
+                                                : Colors.white,
+                                            decoration: checkDiscount(
+                                                        price, memberPrice) ==
+                                                    true
+                                                ? TextDecoration.lineThrough
+                                                : TextDecoration.none,
                                           ),
                                           textAlign: TextAlign.start,
                                         ),
+                                        if (checkDiscount(cart[index].price,
+                                                cart[index].memberPrice!) ==
+                                            true)
+                                          Text(
+                                            NumberFormat.currency(
+                                                    locale: 'id_ID',
+                                                    symbol: 'Rp')
+                                                .format(
+                                              cart[index].memberPrice,
+                                            ),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
                                       ],
                                     ),
                                   ),
@@ -251,7 +310,8 @@ class _CartScreenState extends State<CartScreen> {
                                     NumberFormat.currency(
                                             locale: 'id_ID', symbol: 'Rp')
                                         .format(
-                                      calculateTotalPrice(cart),
+                                      calculateTotalPrice(
+                                          cart, widget.isLoggedIn),
                                     ),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -266,7 +326,8 @@ class _CartScreenState extends State<CartScreen> {
                                           locale: 'id_ID',
                                           symbol: 'Rp',
                                         ).format(
-                                          calculateDiscountAmount(cart),
+                                          calculateDiscountAmount(
+                                              cart, widget.isLoggedIn),
                                         )}',
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -278,7 +339,8 @@ class _CartScreenState extends State<CartScreen> {
                                         NumberFormat.currency(
                                                 locale: 'id_ID', symbol: 'Rp')
                                             .format(
-                                          calculateTotalPriceWithDiscount(cart),
+                                          calculateTotalPriceWithDiscount(
+                                              cart, widget.isLoggedIn),
                                         ),
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,
