@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   final runnableApp = _builApp(
     isWeb: kIsWeb,
-    webAppWidth: 400.0,
+    webAppWidth: 425.0,
     app: MultiBlocProvider(
       providers: [
         BlocProvider<LoginBloc>(

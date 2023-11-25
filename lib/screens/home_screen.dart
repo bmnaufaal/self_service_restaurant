@@ -13,9 +13,13 @@ import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/category_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/checkout_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
+import 'package:lunapos_akpsi/widgets/buttons/user_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/custom_search_bar.dart';
 import 'package:lunapos_akpsi/widgets/list_items/item_card.dart';
+import 'package:lunapos_akpsi/widgets/modals/account_modal.dart';
+import 'package:lunapos_akpsi/widgets/modals/invite_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/login_modal.dart';
+import 'package:lunapos_akpsi/widgets/modals/promo_modal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +29,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isInviter = false;
+  bool isInvitee = false;
   bool isLoggedIn = false;
   bool isSemuaActive = true;
   bool isNasiActive = false;
@@ -39,7 +45,22 @@ class _HomeScreenState extends State<HomeScreen> {
   List<MenuItem> cart = [];
   Timer? _debounce;
   String userName = '';
+  String selectedLanguage = 'ID';
   int loyaltyPoints = 0;
+  List<String> languages = ['ID', 'EN'];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const PromoModal();
+        },
+      );
+    });
+  }
 
   @override
   void dispose() {
@@ -136,15 +157,49 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
+              toolbarHeight: 90,
               backgroundColor: Colors.white,
               elevation: 0,
-              title: const Text(
-                'LOGO',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
+              title: Row(
+                children: [
+                  const Text(
+                    'LOGO',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  DropdownMenu<String>(
+                    inputDecorationTheme: const InputDecorationTheme(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                      ),
+                    ),
+                    width: 80,
+                    initialSelection: languages.first,
+                    onSelected: (String? value) {
+                      setState(() {
+                        selectedLanguage = value!;
+                      });
+                    },
+                    dropdownMenuEntries:
+                        languages.map<DropdownMenuEntry<String>>(
+                      (String value) {
+                        return DropdownMenuEntry<String>(
+                          value: value,
+                          label: value,
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ],
               ),
               centerTitle: false,
               actions: [
@@ -190,9 +245,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: userName,
                       icon: Icons.person_outline,
                       onPressed: () {
-                        setState(() {
-                          isLoggedIn = !isLoggedIn;
-                        });
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AccountModal(
+                              name: userName,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  isLoggedIn = !isLoggedIn;
+                                });
+                              },
+                            );
+                          },
+                        );
                       },
                     ),
                   ),
@@ -406,27 +472,77 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      Visibility(
-                        visible: totalCount != 0 ? true : false,
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: CheckoutButton(
-                            itemCount: totalCount,
-                            totalPrice: totalPrice,
-                            icon: Icons.shopping_basket,
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) {
-                                  return CartScreen(
-                                    cart: cart,
-                                    bloc: BlocProvider.of<MenuBloc>(context),
-                                    isLoggedIn: isLoggedIn,
-                                  );
-                                }),
-                              );
-                            },
-                          ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: Visibility(
+                                visible: (cart.isNotEmpty) ? true : false,
+                                child: Container(
+                                  alignment: Alignment.bottomCenter,
+                                  child: CheckoutButton(
+                                    itemCount: totalCount,
+                                    totalPrice: totalPrice,
+                                    icon: Icons.shopping_basket,
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (_) {
+                                          return CartScreen(
+                                            userName: userName,
+                                            cart: cart,
+                                            bloc: BlocProvider.of<MenuBloc>(
+                                                context),
+                                            isLoggedIn: isLoggedIn,
+                                            points: loyaltyPoints,
+                                            isJoinOrder: (isInvitee == true ||
+                                                isInviter == true),
+                                          );
+                                        }),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                alignment: Alignment.bottomCenter,
+                                child: SizedBox(
+                                  height: 47,
+                                  child: UserButton(
+                                    title: (isInvitee == true) ? 'Table 1' : '',
+                                    icon: Icons.person,
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return InviteModal(
+                                            onImageClicked: () {
+                                              Navigator.of(context).pop();
+                                              setState(() {
+                                                isInvitee = true;
+                                                isInviter = false;
+                                              });
+                                            },
+                                            onClose: () {
+                                              Navigator.of(context).pop();
+                                              setState(() {
+                                                isInvitee = false;
+                                                isInviter = true;
+                                              });
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

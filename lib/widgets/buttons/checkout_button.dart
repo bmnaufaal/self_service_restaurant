@@ -31,7 +31,8 @@ class _CheckoutButtonState extends State<CheckoutButton> {
       ),
       onPressed: widget.onPressed,
       child: ListTile(
-        contentPadding: EdgeInsets.zero,
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(vertical: 3),
         titleTextStyle: const TextStyle(color: Colors.white),
         leadingAndTrailingTextStyle: const TextStyle(color: Colors.white),
         leading: Icon(

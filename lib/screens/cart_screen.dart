@@ -15,16 +15,22 @@ import 'package:lunapos_akpsi/widgets/modals/coupon_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/loyalty_point_modal.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({
+  CartScreen({
     super.key,
     required this.cart,
     required this.bloc,
     required this.isLoggedIn,
+    required this.userName,
+    required this.points,
+    required this.isJoinOrder,
   });
 
   final List<MenuItem> cart;
   final MenuBloc bloc;
   final bool isLoggedIn;
+  final String userName;
+  int points;
+  final bool isJoinOrder;
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -35,6 +41,8 @@ class _CartScreenState extends State<CartScreen> {
   String validCoupon = 'COUPON1';
   bool isCouponValid = false;
   int discount = 0;
+  int loyaltyDiscountPercent = 0;
+  int totalCount = 0;
 
   int calculateTotalPrice(List<MenuItem> items, bool isLoggedIn) {
     int total = 0;
@@ -81,6 +89,10 @@ class _CartScreenState extends State<CartScreen> {
     int totalAmount = calculateTotalPrice(cart, isLoggedIn);
     int discountedAmount = calculateTotalPriceWithDiscount(cart, isLoggedIn);
     return totalAmount - discountedAmount;
+  }
+
+  int calculateTotalCount(List<MenuItem> items) {
+    return items.fold(0, (sum, item) => sum + item.count);
   }
 
   @override
@@ -137,8 +149,13 @@ class _CartScreenState extends State<CartScreen> {
               ],
               child: BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
+                  if (state is CartInitialState) {
+                    totalCount = calculateTotalCount(cart);
+                  }
+
                   if (state is CartLoadedState) {
                     cart = state.cart;
+                    totalCount = calculateTotalCount(cart);
                   }
 
                   return Container(
@@ -147,6 +164,72 @@ class _CartScreenState extends State<CartScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (widget.isJoinOrder == true)
+                          PrimaryButton(
+                            title: 'John Doe',
+                            onPressed: () {},
+                          ),
+                        if (widget.isJoinOrder == true)
+                          Card(
+                            color: const Color(0xFF53387D),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 125,
+                                  height: 125,
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/mie_ayam_bakso.png'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Mie Ayam Bakso',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Text(
+                                          NumberFormat.currency(
+                                                  locale: 'id_ID', symbol: 'Rp')
+                                              .format(
+                                            20000,
+                                          ),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (widget.isJoinOrder == true)
+                          PrimaryButton(
+                            title: (widget.userName != '')
+                                ? widget.userName
+                                : 'Guest',
+                            onPressed: () {},
+                          ),
                         Expanded(
                           child: ListView.builder(
                             itemCount: cart.length,
@@ -168,7 +251,7 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                         image: DecorationImage(
                                           image: AssetImage(
-                                              'assets/images///${cart[index].image}'),
+                                              'assets/images/${cart[index].image}'),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -305,105 +388,187 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         Container(
                           alignment: Alignment.bottomCenter,
-                          padding: const EdgeInsets.only(bottom: 15),
+                          padding: const EdgeInsets.only(bottom: 20),
                           child: Column(
                             children: [
-                              if (isCouponValid == true)
-                                ListTile(
-                                  visualDensity: VisualDensity.compact,
-                                  leading: const Text(
-                                    'Coupon (Discount 10%)',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '- ${NumberFormat.currency(
-                                      locale: 'id_ID',
-                                      symbol: 'Rp',
-                                    ).format(
-                                      calculateDiscountAmount(
-                                          cart, widget.isLoggedIn),
-                                    )}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ),
-                              ListTile(
-                                visualDensity: VisualDensity.compact,
-                                leading: const Text(
-                                  'Total',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                trailing: (isCouponValid != true)
-                                    ? Text(
-                                        NumberFormat.currency(
-                                                locale: 'id_ID', symbol: 'Rp')
-                                            .format(
-                                          calculateTotalPrice(
-                                              cart, widget.isLoggedIn),
-                                        ),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                        ),
-                                      )
-                                    : Text(
-                                        NumberFormat.currency(
-                                                locale: 'id_ID', symbol: 'Rp')
-                                            .format(
-                                          calculateTotalPriceWithDiscount(
-                                            cart,
-                                            widget.isLoggedIn,
-                                          ),
-                                        ),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                              ),
-                              ListTile(
-                                visualDensity: VisualDensity.compact,
-                                leading: PrimaryButton(
-                                  icon: Icons.local_activity,
-                                  title: 'Use a coupon',
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return const CouponModal();
-                                      },
-                                    );
-                                  },
-                                ),
-                                trailing: PrimaryButton(
+                              Container(
+                                padding: const EdgeInsets.only(left: 15),
+                                alignment: Alignment.centerLeft,
+                                child: PrimaryButton(
                                   title: 'Use Loyalty Point',
                                   onPressed: () {
                                     showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return const LoyaltyPointModal();
+                                        return LoyaltyPointModal(
+                                          loyaltyPoints: widget.points,
+                                          onSelected: (int value, int percent) {
+                                            setState(() {
+                                              widget.points -= value;
+                                              loyaltyDiscountPercent = percent;
+                                            });
+                                          },
+                                        );
                                       },
                                     );
                                   },
                                 ),
                               ),
-                              ListTile(
-                                visualDensity: VisualDensity.compact,
-                                title: PrimaryButton(
-                                  maxWidth: true,
-                                  onPressed: () {},
-                                  title: 'Checkout',
+                              const SizedBox(height: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    if (isCouponValid == false)
+                                      PrimaryButton(
+                                        icon: Icons.local_activity,
+                                        title: 'Use a coupon',
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return const CouponModal();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    if (isCouponValid == true)
+                                      const Text(
+                                        'Coupon (Discount 10%)',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    if (isCouponValid == true) const Spacer(),
+                                    if (isCouponValid == true)
+                                      Text(
+                                        '- ${NumberFormat.currency(
+                                          locale: 'id_ID',
+                                          symbol: 'Rp',
+                                        ).format(
+                                          calculateDiscountAmount(
+                                              cart, widget.isLoggedIn),
+                                        )}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Total',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        (isCouponValid != true)
+                                            ? Text(
+                                                NumberFormat.currency(
+                                                        locale: 'id_ID',
+                                                        symbol: 'Rp')
+                                                    .format(
+                                                  calculateTotalPrice(
+                                                      cart, widget.isLoggedIn),
+                                                ),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                            : Text(
+                                                NumberFormat.currency(
+                                                        locale: 'id_ID',
+                                                        symbol: 'Rp')
+                                                    .format(
+                                                  calculateTotalPriceWithDiscount(
+                                                    cart,
+                                                    widget.isLoggedIn,
+                                                  ),
+                                                ),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    PrimaryButton(
+                                      maxWidth: true,
+                                      onPressed: () {},
+                                      title: 'Checkout ($totalCount)',
+                                    ),
+                                  ],
                                 ),
                               )
+                              // ListTile(
+                              //   visualDensity: VisualDensity.compact,
+                              //   leading:
+                              //   // trailing:
+                              // ),
+                              // ListTile(
+                              //   visualDensity: VisualDensity.compact,
+                              //   leading: const Text(
+                              //     'Total',
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.w700,
+                              //       fontSize: 20,
+                              //     ),
+                              //   ),
+                              //   trailing: (isCouponValid != true)
+                              //       ? Text(
+                              //           NumberFormat.currency(
+                              //                   locale: 'id_ID', symbol: 'Rp')
+                              //               .format(
+                              //             calculateTotalPrice(
+                              //                 cart, widget.isLoggedIn),
+                              //           ),
+                              //           style: const TextStyle(
+                              //             fontWeight: FontWeight.w700,
+                              //             fontSize: 20,
+                              //           ),
+                              //         )
+                              //       : Text(
+                              //           NumberFormat.currency(
+                              //                   locale: 'id_ID', symbol: 'Rp')
+                              //               .format(
+                              //             calculateTotalPriceWithDiscount(
+                              //               cart,
+                              //               widget.isLoggedIn,
+                              //             ),
+                              //           ),
+                              //           style: const TextStyle(
+                              //             fontWeight: FontWeight.w700,
+                              //             fontSize: 20,
+                              //           ),
+                              //         ),
+                              // ),
+                              // ListTile(
+                              //   visualDensity: VisualDensity.compact,
+                              //   title: PrimaryButton(
+                              //     maxWidth: true,
+                              //     onPressed: () {},
+                              //     title: 'Checkout',
+                              //   ),
+                              // )
                             ],
                           ),
                         ),
