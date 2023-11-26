@@ -55,7 +55,10 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: buildPointsContainer(100, 50),
+                child: buildPointsContainer(
+                  100,
+                  50,
+                ),
               ),
             ],
           ),
@@ -65,7 +68,7 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
             maxWidth: true,
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onSelected(pointsUsed, discountPercent);
+              widget.onSelected(pointsUsed, discountPercent,);
             },
           )
         ],

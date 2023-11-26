@@ -39,6 +39,7 @@ class _CouponModalState extends State<CouponModal> {
       content: FormInput(
         hintText: 'Enter coupon code',
         controller: controller['coupon']!,
+        uppercaseOnly: true,
         validator: (value) {
           return null;
         },

@@ -10,7 +10,12 @@ class LoyaltyPointBloc extends Bloc<LoyaltyPointEvent, LoyaltyPointState> {
       emit(LoyaltyPointLoadingState());
 
       try {
-        emit(LoyaltyPointLoadedState(event.discount));
+        print('points: ${event.points - event.cost}');
+        if (event.points - event.cost >= 0) {
+          emit(LoyaltyPointLoadedState(event.discount));
+        } else {
+          throw ("Insufficient points");
+        }
       } catch (error, stackTrace) {
         print(error);
         print(stackTrace);

@@ -7,8 +7,14 @@ abstract class LoyaltyPointEvent extends Equatable {
 }
 
 class PostLoyaltyPoint extends LoyaltyPointEvent {
-  const PostLoyaltyPoint(this.discount);
+  const PostLoyaltyPoint(
+    this.discount,
+    this.cost,
+    this.points,
+  );
   final int discount;
+  final int cost;
+  final int points;
 
   @override
   List<Object?> get props => [];

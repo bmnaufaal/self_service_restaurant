@@ -145,6 +145,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
 
           if (data.count >= 0) {
             int newCount = data.count - 1;
+            if (newCount < 0) {
+              newCount = 0;
+            }
 
             menuData[itemIndex] = MenuItem(
               name: data.name,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lunapos_akpsi/helper/formatter.dart';
 
 class FormInput extends StatefulWidget {
   FormInput({
@@ -11,6 +12,7 @@ class FormInput extends StatefulWidget {
     this.icon,
     this.isDisabled,
     this.onChanged,
+    this.uppercaseOnly,
   });
 
   final String hintText;
@@ -20,6 +22,7 @@ class FormInput extends StatefulWidget {
   bool? isDisabled;
   String? Function(dynamic)? onChanged;
   Widget? icon;
+  bool? uppercaseOnly;
 
   @override
   State<FormInput> createState() {
@@ -49,6 +52,11 @@ class _FormInputState extends State<FormInput> {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: widget.onChanged,
+      inputFormatters: (widget.uppercaseOnly != null)
+          ? [
+              UpperCaseTextFormatter(),
+            ]
+          : null,
       scrollPadding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),

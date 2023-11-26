@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lunapos_akpsi/bloc/coupon/coupon_bloc.dart';
 import 'package:lunapos_akpsi/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:lunapos_akpsi/bloc/login/login_bloc.dart';
+import 'package:lunapos_akpsi/bloc/loyalty_point/loyalty_point_bloc.dart';
 import 'package:lunapos_akpsi/bloc/otp/otp_bloc.dart';
 import 'package:lunapos_akpsi/bloc/register/register_bloc.dart';
 import 'package:lunapos_akpsi/screens/home_screen.dart';
@@ -42,6 +43,12 @@ void main() {
         BlocProvider<CouponBloc>(
           create: (context) {
             final CouponBloc bloc = CouponBloc();
+            return bloc;
+          },
+        ),
+        BlocProvider<LoyaltyPointBloc>(
+          create: (context) {
+            final LoyaltyPointBloc bloc = LoyaltyPointBloc();
             return bloc;
           },
         ),

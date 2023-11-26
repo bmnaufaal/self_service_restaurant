@@ -178,11 +178,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           Radius.circular(8),
                         ),
                       ),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 5,
+                      contentPadding: EdgeInsets.only(
+                        left: 5,
                       ),
                     ),
-                    width: 80,
+                    width: 75,
                     initialSelection: languages.first,
                     onSelected: (String? value) {
                       setState(() {
