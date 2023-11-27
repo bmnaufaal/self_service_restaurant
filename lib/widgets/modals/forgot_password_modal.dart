@@ -7,6 +7,8 @@ import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/alerts/success_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lunapos_akpsi/widgets/modals/reset_password_modal.dart';
 
 class ForgotPasswordModal extends StatefulWidget {
   const ForgotPasswordModal({super.key});
@@ -41,9 +43,7 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
           showDialog(
             context: context,
             builder: (context) {
-              return const SuccessAlert(
-                message: 'We have sent password reset link',
-              );
+              return const ResetPasswordModal();
             },
           );
         }
@@ -61,13 +61,24 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
       },
       builder: (context, state) {
         return AlertDialog(
-          title: const Text(
-            'Lupa Password',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              color: Color(0xFF53387D),
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.forgotPassword,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 24,
+                  color: Color(0xFF53387D),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
           content: SizedBox(
             width: 300,
@@ -77,9 +88,9 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: const Text(
-                    'Nomor Telepon',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.phoneNumber,
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -96,7 +107,7 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
                   width: double.infinity,
                   child: PrimaryButton(
                     maxWidth: true,
-                    title: 'Kirim',
+                    title: AppLocalizations.of(context)!.submit,
                     onPressed: () {
                       BlocProvider.of<ForgotPasswordBloc>(context).add(
                         PostForgotPassword(

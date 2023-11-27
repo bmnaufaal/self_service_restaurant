@@ -12,11 +12,13 @@ import 'package:lunapos_akpsi/bloc/loyalty_point/loyalty_point_state.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
 import 'package:lunapos_akpsi/models/menu_item.dart';
+import 'package:lunapos_akpsi/screens/detail_order_screen.dart';
 import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/coupon_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/loyalty_point_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/payment_modal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartScreen extends StatefulWidget {
   CartScreen({
@@ -47,6 +49,21 @@ class _CartScreenState extends State<CartScreen> {
   double loyaltyDiscount = 0;
   int loyaltyDiscountPercent = 0;
   int totalCount = 0;
+
+  int calculateSubtotal(List<MenuItem> items, bool isLoggedIn) {
+    double total = 0;
+    if (isLoggedIn == true) {
+      total = items
+          .where((item) => item.count > 0)
+          .fold(0, (sum, item) => sum + ((item.memberPrice!) * item.count));
+    } else {
+      total = items
+          .where((item) => item.count > 0)
+          .fold(0, (sum, item) => sum + ((item.price) * item.count));
+    }
+
+    return (widget.isJoinOrder == true) ? total.toInt() + 20000 : total.toInt();
+  }
 
   int calculateTotalPrice(List<MenuItem> items, bool isLoggedIn) {
     double total = 0;
@@ -193,9 +210,9 @@ class _CartScreenState extends State<CartScreen> {
                 appBar: AppBar(
                   backgroundColor: Colors.white,
                   elevation: 0,
-                  title: const Text(
-                    'Keranjang',
-                    style: TextStyle(
+                  title: Text(
+                    AppLocalizations.of(context)!.cart,
+                    style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
@@ -290,7 +307,7 @@ class _CartScreenState extends State<CartScreen> {
                               PrimaryButton(
                                 title: (widget.userName != '')
                                     ? widget.userName
-                                    : 'Tamu',
+                                    : AppLocalizations.of(context)!.guest,
                                 onPressed: () {},
                               ),
                             Expanded(
@@ -473,7 +490,8 @@ class _CartScreenState extends State<CartScreen> {
                                       padding: const EdgeInsets.only(left: 15),
                                       alignment: Alignment.centerLeft,
                                       child: PrimaryButton(
-                                        title: 'Gunakan Loyalty Point',
+                                        title: AppLocalizations.of(context)!
+                                            .useLoyaltyPoints,
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -544,7 +562,8 @@ class _CartScreenState extends State<CartScreen> {
                                         if (isCouponValid == false)
                                           PrimaryButton(
                                             icon: Icons.local_activity,
-                                            title: 'Gunakan kupon',
+                                            title: AppLocalizations.of(context)!
+                                                .useCoupon,
                                             onPressed: () {
                                               showDialog(
                                                 context: context,
@@ -555,9 +574,9 @@ class _CartScreenState extends State<CartScreen> {
                                             },
                                           ),
                                         if (isCouponValid == true)
-                                          const Text(
-                                            'Kupon (Diskon 10%)',
-                                            style: TextStyle(
+                                          Text(
+                                            '${AppLocalizations.of(context)!.coupon} (${AppLocalizations.of(context)!.discount} 10%)',
+                                            style: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.green,
                                             ),
@@ -636,26 +655,39 @@ class _CartScreenState extends State<CartScreen> {
                                         PrimaryButton(
                                           maxWidth: true,
                                           onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return PaymentModal(
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(builder: (_) {
+                                                return DetailOrder(
+                                                  userName: widget.userName,
                                                   isLoggedIn: widget.isLoggedIn,
-                                                  totalPrice: (isCouponValid !=
+                                                  cart: cart,
+                                                  loyaltyDiscount:
+                                                      (loyaltyDiscount > 0)
+                                                          ? calculateLoyaltyDiscountAmount(
+                                                              cart,
+                                                              widget.isLoggedIn,
+                                                              loyaltyDiscount,
+                                                            )
+                                                          : 0,
+                                                  couponDiscount: (isCouponValid ==
                                                           true)
-                                                      ? calculateTotalPrice(
+                                                      ? calculateDiscountAmount(
                                                           cart,
                                                           widget.isLoggedIn,
                                                         )
-                                                      : calculateTotalPriceWithDiscount(
-                                                          cart,
-                                                          widget.isJoinOrder,
-                                                        ),
+                                                      : 0,
+                                                  totalPrice: calculateSubtotal(
+                                                    cart,
+                                                    widget.isLoggedIn,
+                                                  ),
+                                                  isJoinOrder:
+                                                      widget.isJoinOrder,
                                                 );
-                                              },
+                                              }),
                                             );
                                           },
-                                          title: 'Bayar ($totalCount)',
+                                          title:
+                                              '${AppLocalizations.of(context)!.checkout} ($totalCount)',
                                         ),
                                       ],
                                     ),

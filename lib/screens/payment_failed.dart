@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentFailedScreen extends StatefulWidget {
   const PaymentFailedScreen({super.key});
@@ -32,9 +33,9 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Pembayaran Gagal',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.paymentFailed,
+              style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 32,
               ),
@@ -49,7 +50,7 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Selesai',
+                title: AppLocalizations.of(context)!.finish,
                 onPressed: () {
                   Navigator.of(context).popUntil(
                     (route) => route.isFirst,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoyaltyPointModal extends StatefulWidget {
   const LoyaltyPointModal({
@@ -24,11 +25,23 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Container(
-        alignment: Alignment.centerRight,
-        child: PrimaryButton(
-          onPressed: () {},
-          icon: Icons.monetization_on,
-          title: '${widget.loyaltyPoints} Points',
+        // alignment: Alignment.centerRight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            PrimaryButton(
+              onPressed: () {},
+              icon: Icons.monetization_on,
+              title:
+                  '${widget.loyaltyPoints} ${AppLocalizations.of(context)!.points}',
+            ),
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         ),
       ),
       content: Column(
@@ -63,16 +76,19 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
             ],
           ),
           const SizedBox(height: 16),
-          PrimaryButton(
-            title: 'Use Loyalty Points',
-            maxWidth: true,
-            onPressed: () {
-              Navigator.of(context).pop();
-              widget.onSelected(
-                pointsUsed,
-                discountPercent,
-              );
-            },
+          SizedBox(
+            width: double.infinity,
+            child: PrimaryButton(
+              title: AppLocalizations.of(context)!.useLoyaltyPoints,
+              maxWidth: true,
+              onPressed: () {
+                Navigator.of(context).pop();
+                widget.onSelected(
+                  pointsUsed,
+                  discountPercent,
+                );
+              },
+            ),
           )
         ],
       ),
@@ -95,13 +111,13 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
         child: Column(
           children: [
             Text(
-              '$points Point',
+              '$points ${AppLocalizations.of(context)!.points}',
               style: TextStyle(
                 color: selectedPoints == points ? Colors.white : Colors.white,
               ),
             ),
             Text(
-              'Diskon $discount%',
+              '${AppLocalizations.of(context)!.discount} $discount%',
               style: TextStyle(
                 color: selectedPoints == points ? Colors.white : Colors.white,
               ),

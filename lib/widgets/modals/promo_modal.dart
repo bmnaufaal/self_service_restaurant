@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PromoModal extends StatefulWidget {
   const PromoModal({super.key});
@@ -26,10 +27,10 @@ class _PromoModalState extends State<PromoModal> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'Spesial Hari Ini',
+          Text(
+            AppLocalizations.of(context)!.todaysSpecial,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
               color: Color(0xFF53387D),

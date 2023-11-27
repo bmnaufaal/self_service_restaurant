@@ -4,6 +4,7 @@ import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
 import 'package:lunapos_akpsi/widgets/inputs/number_input.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScheduledOrderScreen extends StatefulWidget {
   const ScheduledOrderScreen({super.key});
@@ -48,16 +49,18 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Anda belum memiliki jadwal pesanan',
-                  style: TextStyle(
+                const SizedBox(height: 32),
+                Text(
+                  AppLocalizations.of(context)!.youDontHaveAnyScheduleYet,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 PrimaryButton(
-                  title: 'Jadwal Pesanan',
+                  title: AppLocalizations.of(context)!.scheduledOrder,
                   onPressed: () {
                     setState(() {
                       isStarted = true;
@@ -69,9 +72,9 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Tanggal',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.date,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
@@ -92,7 +95,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                     }
                   },
                   child: FormInput(
-                    hintText: 'Pilih tanggal',
+                    hintText: AppLocalizations.of(context)!.selectDate,
                     isDisabled: true,
                     controller: controller['date']!,
                     validator: (value) {
@@ -101,9 +104,9 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Time',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.time,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
@@ -122,7 +125,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                     }
                   },
                   child: FormInput(
-                    hintText: 'Pilih waktu',
+                    hintText: AppLocalizations.of(context)!.selectTime,
                     isDisabled: true,
                     controller: controller['time']!,
                     validator: (value) {
@@ -131,9 +134,9 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Tamu',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.guest,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
@@ -144,9 +147,9 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                   controller: controller['guest']!,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Pemesanan minimum untuk pesanan terjadwal: Rp50.000/orang',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.minimumOrder,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                   ),
@@ -156,7 +159,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    title: 'Mulai Jadwal Pesanan',
+                    title: AppLocalizations.of(context)!.startScheduledOrder,
                     onPressed: () {
                       if (controller['date']!.text != '' &&
                           controller['time']!.text != '') {

@@ -9,6 +9,7 @@ import 'package:lunapos_akpsi/bloc/otp/otp_bloc.dart';
 import 'package:lunapos_akpsi/bloc/register/register_bloc.dart';
 import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   final runnableApp = _builApp(
@@ -87,9 +88,14 @@ Widget _builApp({
 }
 
 class _SelfServiceAppState extends State<SelfServiceApp> {
+  String language = 'en';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: Locale(language),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         dialogBackgroundColor: Colors.white,
         textTheme: GoogleFonts.openSansTextTheme(),
@@ -100,7 +106,13 @@ class _SelfServiceAppState extends State<SelfServiceApp> {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: HomeScreen(
+        onChangeLanguage: (value) {
+          setState(() {
+            language = value;
+          });
+        },
+      ),
     );
   }
 }

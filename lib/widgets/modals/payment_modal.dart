@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/screens/cashier_payment_screen.dart';
 import 'package:lunapos_akpsi/screens/online_payment_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentModal extends StatefulWidget {
   const PaymentModal({
@@ -29,7 +30,7 @@ class _PaymentModalState extends State<PaymentModal> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Pembayaran Online',
+                title: AppLocalizations.of(context)!.onlinePayment,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
@@ -46,7 +47,7 @@ class _PaymentModalState extends State<PaymentModal> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Pembayaran di kasir',
+                title: AppLocalizations.of(context)!.cashierPayment,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(

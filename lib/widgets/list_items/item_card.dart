@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:lunapos_akpsi/models/menu_item.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/detail_modal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemCard extends StatefulWidget {
   ItemCard({
@@ -160,7 +161,7 @@ class _ItemCardState extends State<ItemCard> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: PrimaryButton(
-                  title: 'Pesan',
+                  title: AppLocalizations.of(context)!.order,
                   icon: Icons.add,
                   maxWidth: true,
                   onPressed: () {

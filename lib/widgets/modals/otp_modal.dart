@@ -7,6 +7,7 @@ import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/alerts/success_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
+import 'package:lunapos_akpsi/widgets/modals/finish_register_modal.dart';
 
 class OTPModal extends StatefulWidget {
   const OTPModal({super.key});
@@ -42,13 +43,11 @@ class _OTPModalState extends State<OTPModal> {
           showDialog(
             context: context,
             builder: (context) {
-              return const SuccessAlert(
-                message: 'You have been successfully registered',
-              );
+              return const FinishRegisterModal();
             },
           );
         }
-        
+
         if (state is OTPErrorState) {
           showDialog(
             context: context,
@@ -62,13 +61,24 @@ class _OTPModalState extends State<OTPModal> {
       },
       builder: (context, state) {
         return AlertDialog(
-          title: const Text(
-            'OTP',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 36,
-              color: Color(0xFF53387D),
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'OTP',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 36,
+                  color: Color(0xFF53387D),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
@@ -148,7 +158,7 @@ class _OTPModalState extends State<OTPModal> {
           ),
           actions: [
             PrimaryButton(
-              title: 'Submit',
+              title: 'Kirim',
               onPressed: () {
                 String otpValue = '';
                 controller.forEach((key, value) {

@@ -23,7 +23,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             event.controller['password']?.text == '') {
           throw ("Invalid data");
         } else {
-          throw ("Nomor telepon sudah terdaftar");
+          throw ("Phone number is already registered");
         }
       } catch (error, stackTrace) {
         print(error);

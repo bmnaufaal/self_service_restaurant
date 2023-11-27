@@ -20,6 +20,7 @@ import 'package:lunapos_akpsi/widgets/list_items/item_card.dart';
 import 'package:lunapos_akpsi/widgets/modals/invite_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/login_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/promo_modal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({
@@ -31,6 +32,7 @@ class HomeScreen extends StatefulWidget {
     this.isLoggedIn,
     this.userName,
     this.loyaltyPoints,
+    this.onChangeLanguage,
   });
 
   List<MenuItem>? cart;
@@ -40,6 +42,7 @@ class HomeScreen extends StatefulWidget {
   bool? isLoggedIn;
   String? userName;
   int? loyaltyPoints;
+  dynamic? onChangeLanguage;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -62,9 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<MenuItem> cart = [];
   Timer? _debounce;
   String userName = '';
-  String selectedLanguage = 'ID';
   int loyaltyPoints = 0;
-  List<String> languages = ['ID', 'EN'];
+  List<String> languages = ['en', 'id'];
 
   @override
   void initState() {
@@ -213,16 +215,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 80,
                           initialSelection: languages.first,
                           onSelected: (String? value) {
-                            setState(() {
-                              selectedLanguage = value!;
-                            });
+                            widget.onChangeLanguage(value);
                           },
                           dropdownMenuEntries:
                               languages.map<DropdownMenuEntry<String>>(
                             (String value) {
                               return DropdownMenuEntry<String>(
                                 value: value,
-                                label: value,
+                                label: value.toUpperCase(),
                               );
                             },
                           ).toList(),
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ]
                     : [
                         Text(
-                          'Jadwal Pesanan- ${widget.date}:${widget.time} - ${widget.guest} Orang',
+                          '${AppLocalizations.of(context)!.scheduledOrder} - ${widget.date}:${widget.time} - ${widget.guest} ${AppLocalizations.of(context)!.guest}',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Container(
                           padding: const EdgeInsets.only(right: 15),
                           child: PrimaryButton(
-                            title: 'Masuk',
+                            title: AppLocalizations.of(context)!.login,
                             icon: Icons.person_outline,
                             onPressed: () {
                               showDialog(
@@ -290,23 +290,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return AccountOrderScreen(
                                     userName: userName,
                                     loyaltyPoints: loyaltyPoints,
+                                    onChangeLanguage: widget.onChangeLanguage,
                                   );
                                 }),
                               );
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (context) {
-                              //     return AccountModal(
-                              //       name: userName,
-                              //       onPressed: () {
-                              //         Navigator.of(context).pop();
-                              //         setState(() {
-                              //           isLoggedIn = !isLoggedIn;
-                              //         });
-                              //       },
-                              //     );
-                              //   },
-                              // );
                             },
                           ),
                         ),
@@ -345,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Kategori',
+                              AppLocalizations.of(context)!.category,
                               style: TextStyle(
                                 color: Colors.black.withOpacity(0.5),
                                 fontWeight: FontWeight.w700,
@@ -357,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               children: [
                                 CategoryButton(
-                                  title: 'Semua',
+                                  title: AppLocalizations.of(context)!.all,
                                   isActive: isSemuaActive,
                                   onPressed: () {
                                     setState(() {
@@ -370,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 15),
                                 CategoryButton(
-                                  title: 'Nasi',
+                                  title: AppLocalizations.of(context)!.rice,
                                   isActive: isNasiActive,
                                   onPressed: () {
                                     setState(() {
@@ -386,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 15),
                                 CategoryButton(
-                                  title: 'Mie',
+                                  title: AppLocalizations.of(context)!.noodles,
                                   isActive: isMieActive,
                                   onPressed: () {
                                     setState(() {
@@ -402,7 +389,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 15),
                                 CategoryButton(
-                                  title: 'Sayuran',
+                                  title:
+                                      AppLocalizations.of(context)!.vegetables,
                                   isActive: isSayuranActive,
                                   onPressed: () {
                                     setState(() {
@@ -418,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 15),
                                 CategoryButton(
-                                  title: 'Makanan Ringan',
+                                  title: AppLocalizations.of(context)!.snacks,
                                   isActive: isMakananRinganActive,
                                   onPressed: () {
                                     setState(() {
@@ -434,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 15),
                                 CategoryButton(
-                                  title: 'Makanan Penutup',
+                                  title: AppLocalizations.of(context)!.dessert,
                                   isActive: isMakananPenutupActive,
                                   onPressed: () {
                                     setState(() {
@@ -450,7 +438,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 const SizedBox(width: 15),
                                 CategoryButton(
-                                  title: 'Minuman',
+                                  title:
+                                      AppLocalizations.of(context)!.beverages,
                                   isActive: isMinumanActive,
                                   onPressed: () {
                                     setState(() {
@@ -562,7 +551,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                   height: 47,
                                   child: UserButton(
-                                    title: (isInvitee == true) ? 'Meja 1' : '',
+                                    title: (isInvitee == true)
+                                        ? '${AppLocalizations.of(context)!.table} 1'
+                                        : '',
                                     icon: Icons.person,
                                     onPressed: () {
                                       showDialog(

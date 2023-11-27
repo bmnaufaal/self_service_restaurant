@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({super.key, required this.onChanged});
@@ -14,18 +15,18 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: widget.onChanged,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.search),
-        hintText: 'Cari menu...',
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.search),
+        hintText: AppLocalizations.of(context)!.search,
         filled: true,
-        fillColor: Color(0xFFF5F5F5),
-        border: OutlineInputBorder(
+        fillColor: const Color(0xFFF5F5F5),
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),
           ),
           borderSide: BorderSide.none,
         ),
-        contentPadding: EdgeInsets.only(left: 10),
+        contentPadding: const EdgeInsets.only(left: 10),
       ),
     );
   }

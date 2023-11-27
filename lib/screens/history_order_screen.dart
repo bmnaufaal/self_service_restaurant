@@ -83,7 +83,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 32),
                       const Text(
                         'Total',
                         style: TextStyle(
@@ -102,34 +102,34 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                         ),
                         textAlign: TextAlign.start,
                       ),
-                      const SizedBox(height: 14),
-                      PrimaryButton(
-                        customColor: Colors.green,
-                        title: 'Reorder',
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(builder: (_) {
-                            return HomeScreen(
-                              isLoggedIn: true,
-                              userName: 'Naufal',
-                              loyaltyPoints: 50,
-                              cart: [
-                                MenuItem(
-                                  name: 'Nasi Goreng',
-                                  price: 30000,
-                                  memberPrice: 28000,
-                                  category: 'Nasi',
-                                  description:
-                                      'Nasi goreng spesial dengan campuran bumbu pilihan, sayuran segar, dan daging ayam. Rasanya lezat dan cocok untuk penggemar nasi goreng.',
-                                  image: 'nasi_goreng.png',
-                                  count: 1,
-                                  tag: 'Spicy',
-                                )
-                              ],
-                            );
-                          }));
-                        },
-                      )
+                      // const SizedBox(height: 14),
+                      // PrimaryButton(
+                      //   customColor: Colors.green,
+                      //   title: 'Reorder',
+                      //   onPressed: () {
+                      //     Navigator.of(context)
+                      //         .pushReplacement(MaterialPageRoute(builder: (_) {
+                      //       return HomeScreen(
+                      //         isLoggedIn: true,
+                      //         userName: 'Naufal',
+                      //         loyaltyPoints: 50,
+                      //         cart: [
+                      //           MenuItem(
+                      //             name: 'Nasi Goreng',
+                      //             price: 30000,
+                      //             memberPrice: 28000,
+                      //             category: 'Nasi',
+                      //             description:
+                      //                 'Nasi goreng spesial dengan campuran bumbu pilihan, sayuran segar, dan daging ayam. Rasanya lezat dan cocok untuk penggemar nasi goreng.',
+                      //             image: 'nasi_goreng.png',
+                      //             count: 1,
+                      //             tag: 'Spicy',
+                      //           )
+                      //         ],
+                      //       );
+                      //     }));
+                      //   },
+                      // )
                     ],
                   ),
                 ),
@@ -211,7 +211,7 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 32),
                       const Text(
                         'Total',
                         style: TextStyle(
@@ -230,45 +230,45 @@ class _HistoryOrderScreenState extends State<HistoryOrderScreen> {
                         ),
                         textAlign: TextAlign.start,
                       ),
-                      const SizedBox(height: 14),
-                      PrimaryButton(
-                        customColor: Colors.green,
-                        title: 'Reorder',
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(builder: (_) {
-                            return HomeScreen(
-                              isLoggedIn: true,
-                              userName: 'Naufal',
-                              loyaltyPoints: 50,
-                              cart: [
-                                MenuItem(
-                                  name: 'Nasi Goreng',
-                                  price: 30000,
-                                  memberPrice: 28000,
-                                  category: 'Nasi',
-                                  description:
-                                      'Nasi goreng spesial dengan campuran bumbu pilihan, sayuran segar, dan daging ayam. Rasanya lezat dan cocok untuk penggemar nasi goreng.',
-                                  image: 'nasi_goreng.png',
-                                  count: 1,
-                                  tag: 'Spicy',
-                                ),
-                                MenuItem(
-                                  name: 'Mie Ayam Bakso',
-                                  price: 20000,
-                                  memberPrice: 20000,
-                                  category: 'Nasi',
-                                  description:
-                                      'Mie ayam bakso dengan kuah gurih, daging ayam suwir, bakso kenyal, dan irisan daun bawang. Menu mie yang lezat dan menggugah selera.',
-                                  image: 'mie_ayam_bakso.png',
-                                  count: 1,
-                                  tag: 'Chicken',
-                                ),
-                              ],
-                            );
-                          }));
-                        },
-                      )
+                      // const SizedBox(height: 14),
+                      // PrimaryButton(
+                      //   customColor: Colors.green,
+                      //   title: 'Reorder',
+                      //   onPressed: () {
+                      //     Navigator.of(context)
+                      //         .pushReplacement(MaterialPageRoute(builder: (_) {
+                      //       return HomeScreen(
+                      //         isLoggedIn: true,
+                      //         userName: 'Naufal',
+                      //         loyaltyPoints: 50,
+                      //         cart: [
+                      //           MenuItem(
+                      //             name: 'Nasi Goreng',
+                      //             price: 30000,
+                      //             memberPrice: 28000,
+                      //             category: 'Nasi',
+                      //             description:
+                      //                 'Nasi goreng spesial dengan campuran bumbu pilihan, sayuran segar, dan daging ayam. Rasanya lezat dan cocok untuk penggemar nasi goreng.',
+                      //             image: 'nasi_goreng.png',
+                      //             count: 1,
+                      //             tag: 'Spicy',
+                      //           ),
+                      //           MenuItem(
+                      //             name: 'Mie Ayam Bakso',
+                      //             price: 20000,
+                      //             memberPrice: 20000,
+                      //             category: 'Nasi',
+                      //             description:
+                      //                 'Mie ayam bakso dengan kuah gurih, daging ayam suwir, bakso kenyal, dan irisan daun bawang. Menu mie yang lezat dan menggugah selera.',
+                      //             image: 'mie_ayam_bakso.png',
+                      //             count: 1,
+                      //             tag: 'Chicken',
+                      //           ),
+                      //         ],
+                      //       );
+                      //     }));
+                      //   },
+                      // )
                     ],
                   ),
                 ),

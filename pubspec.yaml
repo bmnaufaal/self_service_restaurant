@@ -41,6 +41,8 @@ dependencies:
   carousel_slider: ^4.2.1
   date_picker_plus: ^1.1.4
   flutter_material_pickers: ^3.6.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +64,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

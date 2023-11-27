@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckoutButton extends StatefulWidget {
   const CheckoutButton({
@@ -39,7 +40,8 @@ class _CheckoutButtonState extends State<CheckoutButton> {
           widget.icon,
           color: Colors.white,
         ),
-        title: Text('${widget.itemCount} Barang'),
+        title:
+            Text('${widget.itemCount} ${AppLocalizations.of(context)!.item}'),
         trailing: Text(
           NumberFormat.currency(
             locale: 'id_ID',

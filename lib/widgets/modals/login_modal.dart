@@ -6,6 +6,7 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
 import 'package:lunapos_akpsi/widgets/modals/forgot_password_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/register_modal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginModal extends StatefulWidget {
   const LoginModal({super.key});
@@ -31,13 +32,24 @@ class _LoginModalState extends State<LoginModal> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        'Masuk',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 36,
-          color: Color(0xFF53387D),
-        ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.login,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 36,
+              color: Color(0xFF53387D),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
       content: SizedBox(
         width: 300,
@@ -47,9 +59,9 @@ class _LoginModalState extends State<LoginModal> {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(bottom: 8),
-              child: const Text(
-                'Nomor Telepon',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.phoneNumber,
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -65,9 +77,9 @@ class _LoginModalState extends State<LoginModal> {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(bottom: 8),
-              child: const Text(
-                'Password',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.password,
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -92,7 +104,9 @@ class _LoginModalState extends State<LoginModal> {
                         return const ForgotPasswordModal();
                       });
                 },
-                child: const Text('Lupa Password?'),
+                child: Text(
+                  AppLocalizations.of(context)!.forgotPassword,
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -104,7 +118,7 @@ class _LoginModalState extends State<LoginModal> {
                       .add(PostLogin(controller));
                 },
                 maxWidth: true,
-                title: 'Masuk',
+                title: AppLocalizations.of(context)!.login,
               ),
             ),
             Container(
@@ -120,7 +134,7 @@ class _LoginModalState extends State<LoginModal> {
                     },
                   );
                 },
-                child: const Text('Daftar'),
+                child: Text(AppLocalizations.of(context)!.register),
               ),
             ),
           ],

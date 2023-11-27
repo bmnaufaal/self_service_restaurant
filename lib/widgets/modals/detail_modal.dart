@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lunapos_akpsi/bloc/detail/detail_event.dart';
 import 'package:lunapos_akpsi/models/menu_item.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../bloc/detail/detail_bloc.dart';
 import '../../bloc/detail/detail_state.dart';
 
@@ -159,7 +159,7 @@ class _DetailModalState extends State<DetailModal> {
                       ),
                     if (count == 0)
                       PrimaryButton(
-                        title: 'Tambah ke Pesanan',
+                        title: AppLocalizations.of(context)!.addToCart,
                         icon: Icons.add,
                         maxWidth: true,
                         onPressed: () {

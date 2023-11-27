@@ -7,6 +7,7 @@ import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
 import 'package:lunapos_akpsi/widgets/modals/otp_modal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterModal extends StatefulWidget {
   const RegisterModal({super.key});
@@ -56,13 +57,24 @@ class _RegisterModalState extends State<RegisterModal> {
       },
       builder: (context, state) {
         return AlertDialog(
-          title: const Text(
-            'Daftar',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 36,
-              color: Color(0xFF53387D),
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.register,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 36,
+                  color: Color(0xFF53387D),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
           content: SizedBox(
             width: 300,
@@ -72,9 +84,9 @@ class _RegisterModalState extends State<RegisterModal> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: const Text(
-                    'Nomor Telepon',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.phoneNumber,
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -90,9 +102,9 @@ class _RegisterModalState extends State<RegisterModal> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: const Text(
-                    'Password',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.password,
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -115,7 +127,7 @@ class _RegisterModalState extends State<RegisterModal> {
                       );
                     },
                     maxWidth: true,
-                    title: 'Daftar',
+                    title: AppLocalizations.of(context)!.register,
                   ),
                 ),
               ],

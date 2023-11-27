@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentSuccessScreen extends StatefulWidget {
   const PaymentSuccessScreen({
@@ -37,9 +38,9 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Pembayaran Berhasil',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.paymentSuccess,
+              style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 32,
               ),
@@ -52,9 +53,9 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             ),
             const SizedBox(height: 32),
             if (widget.isMember == true)
-              const Text(
-                'Anda Mendapat 10 Loyalty Point',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.loyaltyReward,
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -62,7 +63,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Selesai',
+                title: AppLocalizations.of(context)!.finish,
                 onPressed: () {
                   Navigator.of(context).popUntil(
                     (route) => route.isFirst,

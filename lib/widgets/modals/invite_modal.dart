@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 
@@ -23,10 +23,10 @@ class _InviteModalState extends State<InviteModal> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'Undang',
+          Text(
+            AppLocalizations.of(context)!.invite,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w700,
               color: Color(0xFF53387D),

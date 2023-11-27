@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorAlert extends StatelessWidget {
   const ErrorAlert({
@@ -29,10 +30,10 @@ class ErrorAlert extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Error',
+            Text(
+              AppLocalizations.of(context)!.error,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
               ),

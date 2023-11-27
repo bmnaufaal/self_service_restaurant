@@ -4,6 +4,7 @@ import 'package:lunapos_akpsi/bloc/coupon/coupon_bloc.dart';
 import 'package:lunapos_akpsi/bloc/coupon/coupon_event.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CouponModal extends StatefulWidget {
   const CouponModal({super.key});
@@ -28,16 +29,27 @@ class _CouponModalState extends State<CouponModal> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        'Coupon',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 36,
-          color: Color(0xFF53387D),
-        ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.coupon,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 36,
+              color: Color(0xFF53387D),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
       content: FormInput(
-        hintText: 'Masukkan kode kupon',
+        hintText: AppLocalizations.of(context)!.enterCouponCode,
         controller: controller['coupon']!,
         uppercaseOnly: true,
         validator: (value) {
@@ -45,13 +57,16 @@ class _CouponModalState extends State<CouponModal> {
         },
       ),
       actions: [
-        PrimaryButton(
-          title: 'Submit',
-          onPressed: () {
-            BlocProvider.of<CouponBloc>(context).add(
-              PostCoupon(controller['coupon']!.text),
-            );
-          },
+        SizedBox(
+          width: double.infinity,
+          child: PrimaryButton(
+            title: AppLocalizations.of(context)!.submit,
+            onPressed: () {
+              BlocProvider.of<CouponBloc>(context).add(
+                PostCoupon(controller['coupon']!.text),
+              );
+            },
+          ),
         )
       ],
     );

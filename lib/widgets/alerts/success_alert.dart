@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessAlert extends StatelessWidget {
   const SuccessAlert({
@@ -29,10 +30,10 @@ class SuccessAlert extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Success',
+            Text(
+              AppLocalizations.of(context)!.success,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
               ),

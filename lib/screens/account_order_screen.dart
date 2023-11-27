@@ -4,24 +4,26 @@ import 'package:lunapos_akpsi/screens/scheduled_order_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/account_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/login_modal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountOrderScreen extends StatefulWidget {
   AccountOrderScreen({
     super.key,
     this.userName,
     this.loyaltyPoints,
+    this.onChangeLanguage,
   });
 
   String? userName;
   int? loyaltyPoints;
+  dynamic? onChangeLanguage;
 
   @override
   State<AccountOrderScreen> createState() => _AccountOrderScreenState();
 }
 
 class _AccountOrderScreenState extends State<AccountOrderScreen> {
-  List<String> languages = ['ID', 'EN'];
-  String selectedLanguage = 'ID';
+  List<String> languages = ['en', 'id'];
   bool isLoggedIn = false;
   int loyaltyPoints = 0;
   String userName = '';
@@ -68,15 +70,13 @@ class _AccountOrderScreenState extends State<AccountOrderScreen> {
               width: 80,
               initialSelection: languages.first,
               onSelected: (String? value) {
-                setState(() {
-                  selectedLanguage = value!;
-                });
+                widget.onChangeLanguage(value);
               },
               dropdownMenuEntries: languages.map<DropdownMenuEntry<String>>(
                 (String value) {
                   return DropdownMenuEntry<String>(
                     value: value,
-                    label: value,
+                    label: value.toUpperCase(),
                   );
                 },
               ).toList(),
@@ -89,7 +89,7 @@ class _AccountOrderScreenState extends State<AccountOrderScreen> {
             Container(
               padding: const EdgeInsets.only(right: 15),
               child: PrimaryButton(
-                title: 'Masuk',
+                title: AppLocalizations.of(context)!.login,
                 icon: Icons.person_outline,
                 onPressed: () {
                   showDialog(
@@ -149,21 +149,21 @@ class _AccountOrderScreenState extends State<AccountOrderScreen> {
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: const DefaultTabController(
+        child: DefaultTabController(
           length: 2,
           child: Column(
             children: [
               TabBar(
                 tabs: [
                   Tab(
-                    text: 'Riwayat Pesanan',
+                    text: AppLocalizations.of(context)!.historyOrder,
                   ),
                   Tab(
-                    text: 'Jadwal Pesanan',
+                    text: AppLocalizations.of(context)!.scheduledOrder,
                   ),
                 ],
               ),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
                   children: [
                     HistoryOrderScreen(),

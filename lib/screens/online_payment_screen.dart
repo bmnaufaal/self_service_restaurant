@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lunapos_akpsi/screens/cashier_payment_screen.dart';
-import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:lunapos_akpsi/screens/payment_failed.dart';
 import 'package:lunapos_akpsi/screens/payment_success.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnlinePaymentScreen extends StatefulWidget {
   const OnlinePaymentScreen({
@@ -72,7 +72,7 @@ class _OnlinePaymentScreenState extends State<OnlinePaymentScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Download QRIS',
+                title: AppLocalizations.of(context)!.downloadQRIS,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
@@ -88,7 +88,7 @@ class _OnlinePaymentScreenState extends State<OnlinePaymentScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Pembayaran di kasir',
+                title: AppLocalizations.of(context)!.cashierPayment,
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(

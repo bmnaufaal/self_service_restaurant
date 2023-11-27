@@ -20,7 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             ),
           );
         } else {
-          throw ("Invalid credentials");
+          throw ('Invalid Credentials');
         }
       } catch (error, stackTrace) {
         print(error);
