@@ -57,7 +57,7 @@ class _RegisterModalState extends State<RegisterModal> {
       builder: (context, state) {
         return AlertDialog(
           title: const Text(
-            'Register',
+            'Daftar',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 36,
@@ -73,7 +73,7 @@ class _RegisterModalState extends State<RegisterModal> {
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(bottom: 8),
                   child: const Text(
-                    'Phone Number',
+                    'Nomor Telepon',
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -106,14 +106,17 @@ class _RegisterModalState extends State<RegisterModal> {
                   },
                 ),
                 const SizedBox(height: 32),
-                PrimaryButton(
-                  onPressed: () {
-                    BlocProvider.of<RegisterBloc>(context).add(
-                      PostRegister(controller),
-                    );
-                  },
-                  maxWidth: true,
-                  title: 'Register',
+                SizedBox(
+                  width: double.infinity,
+                  child: PrimaryButton(
+                    onPressed: () {
+                      BlocProvider.of<RegisterBloc>(context).add(
+                        PostRegister(controller),
+                      );
+                    },
+                    maxWidth: true,
+                    title: 'Daftar',
+                  ),
                 ),
               ],
             ),

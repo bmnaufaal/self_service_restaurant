@@ -194,7 +194,7 @@ class _CartScreenState extends State<CartScreen> {
                   backgroundColor: Colors.white,
                   elevation: 0,
                   title: const Text(
-                    'Cart',
+                    'Keranjang',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
@@ -290,7 +290,7 @@ class _CartScreenState extends State<CartScreen> {
                               PrimaryButton(
                                 title: (widget.userName != '')
                                     ? widget.userName
-                                    : 'Guest',
+                                    : 'Tamu',
                                 onPressed: () {},
                               ),
                             Expanded(
@@ -473,7 +473,7 @@ class _CartScreenState extends State<CartScreen> {
                                       padding: const EdgeInsets.only(left: 15),
                                       alignment: Alignment.centerLeft,
                                       child: PrimaryButton(
-                                        title: 'Use Loyalty Point',
+                                        title: 'Gunakan Loyalty Point',
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -544,7 +544,7 @@ class _CartScreenState extends State<CartScreen> {
                                         if (isCouponValid == false)
                                           PrimaryButton(
                                             icon: Icons.local_activity,
-                                            title: 'Use a coupon',
+                                            title: 'Gunakan kupon',
                                             onPressed: () {
                                               showDialog(
                                                 context: context,
@@ -556,7 +556,7 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         if (isCouponValid == true)
                                           const Text(
-                                            'Coupon (Discount 10%)',
+                                            'Kupon (Diskon 10%)',
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.green,
@@ -655,7 +655,7 @@ class _CartScreenState extends State<CartScreen> {
                                               },
                                             );
                                           },
-                                          title: 'Checkout ($totalCount)',
+                                          title: 'Bayar ($totalCount)',
                                         ),
                                       ],
                                     ),

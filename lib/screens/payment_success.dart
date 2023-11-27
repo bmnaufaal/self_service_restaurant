@@ -38,7 +38,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Payment Success',
+              'Pembayaran Berhasil',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 32,
@@ -53,7 +53,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             const SizedBox(height: 32),
             if (widget.isMember == true)
               const Text(
-                'You Got 10 Loyalty Points',
+                'Anda Mendapat 10 Loyalty Point',
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -62,7 +62,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Done',
+                title: 'Selesai',
                 onPressed: () {
                   Navigator.of(context).popUntil(
                     (route) => route.isFirst,

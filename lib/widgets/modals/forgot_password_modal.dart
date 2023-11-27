@@ -62,7 +62,7 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
       builder: (context, state) {
         return AlertDialog(
           title: const Text(
-            'Forgot Password',
+            'Lupa Password',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,
@@ -78,7 +78,7 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(bottom: 8),
                   child: const Text(
-                    'Phone Number',
+                    'Nomor Telepon',
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -92,16 +92,19 @@ class _ForgotPasswordModalState extends State<ForgotPasswordModal> {
                   },
                 ),
                 const SizedBox(height: 16),
-                PrimaryButton(
-                  maxWidth: true,
-                  title: 'Send Reset Password',
-                  onPressed: () {
-                    BlocProvider.of<ForgotPasswordBloc>(context).add(
-                      PostForgotPassword(
-                        controller['phoneNumber']!.text,
-                      ),
-                    );
-                  },
+                SizedBox(
+                  width: double.infinity,
+                  child: PrimaryButton(
+                    maxWidth: true,
+                    title: 'Kirim',
+                    onPressed: () {
+                      BlocProvider.of<ForgotPasswordBloc>(context).add(
+                        PostForgotPassword(
+                          controller['phoneNumber']!.text,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

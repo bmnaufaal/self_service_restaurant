@@ -24,7 +24,7 @@ class _InviteModalState extends State<InviteModal> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(
-            'Invite Order',
+            'Undang',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 28,

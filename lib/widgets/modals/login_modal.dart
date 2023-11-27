@@ -32,7 +32,7 @@ class _LoginModalState extends State<LoginModal> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(
-        'Login',
+        'Masuk',
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 36,
@@ -48,7 +48,7 @@ class _LoginModalState extends State<LoginModal> {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(bottom: 8),
               child: const Text(
-                'Phone Number',
+                'Nomor Telepon',
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -92,16 +92,20 @@ class _LoginModalState extends State<LoginModal> {
                         return const ForgotPasswordModal();
                       });
                 },
-                child: const Text('Forgot Password?'),
+                child: const Text('Lupa Password?'),
               ),
             ),
             const SizedBox(height: 8),
-            PrimaryButton(
-              onPressed: () {
-                BlocProvider.of<LoginBloc>(context).add(PostLogin(controller));
-              },
-              maxWidth: true,
-              title: 'Login',
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryButton(
+                onPressed: () {
+                  BlocProvider.of<LoginBloc>(context)
+                      .add(PostLogin(controller));
+                },
+                maxWidth: true,
+                title: 'Masuk',
+              ),
             ),
             Container(
               alignment: Alignment.centerRight,
@@ -116,7 +120,7 @@ class _LoginModalState extends State<LoginModal> {
                     },
                   );
                 },
-                child: const Text('Register'),
+                child: const Text('Daftar'),
               ),
             ),
           ],

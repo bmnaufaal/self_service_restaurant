@@ -156,10 +156,10 @@ class _AccountOrderScreenState extends State<AccountOrderScreen> {
               TabBar(
                 tabs: [
                   Tab(
-                    text: 'History Order',
+                    text: 'Riwayat Pesanan',
                   ),
                   Tab(
-                    text: 'Schedule Order',
+                    text: 'Jadwal Pesanan',
                   ),
                 ],
               ),

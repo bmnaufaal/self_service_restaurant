@@ -49,7 +49,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  'You dont have any schedule yet',
+                  'Anda belum memiliki jadwal pesanan',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
@@ -57,7 +57,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                 ),
                 const SizedBox(height: 16),
                 PrimaryButton(
-                  title: 'Schedule Order',
+                  title: 'Jadwal Pesanan',
                   onPressed: () {
                     setState(() {
                       isStarted = true;
@@ -70,7 +70,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Date',
+                  'Tanggal',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
@@ -92,7 +92,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                     }
                   },
                   child: FormInput(
-                    hintText: 'Select date',
+                    hintText: 'Pilih tanggal',
                     isDisabled: true,
                     controller: controller['date']!,
                     validator: (value) {
@@ -122,7 +122,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                     }
                   },
                   child: FormInput(
-                    hintText: 'Select time',
+                    hintText: 'Pilih waktu',
                     isDisabled: true,
                     controller: controller['time']!,
                     validator: (value) {
@@ -132,7 +132,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Guest',
+                  'Tamu',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
@@ -145,7 +145,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Minimum order for schedule order : Rp50.000/person',
+                  'Pemesanan minimum untuk pesanan terjadwal: Rp50.000/orang',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
@@ -156,7 +156,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    title: 'Start Schedule Order',
+                    title: 'Mulai Jadwal Pesanan',
                     onPressed: () {
                       if (controller['date']!.text != '' &&
                           controller['time']!.text != '') {

@@ -33,7 +33,7 @@ class _CashierPaymentScreenState extends State<CashierPaymentScreen> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Order Created',
+              'Pesanan Dibuat',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 32,
@@ -49,7 +49,7 @@ class _CashierPaymentScreenState extends State<CashierPaymentScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Done',
+                title: 'Selesai',
                 onPressed: () {
                   Navigator.of(context).popUntil(
                     (route) => route.isFirst,

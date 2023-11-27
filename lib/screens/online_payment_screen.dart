@@ -88,7 +88,7 @@ class _OnlinePaymentScreenState extends State<OnlinePaymentScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Cashier Payment',
+                title: 'Pembayaran di kasir',
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(

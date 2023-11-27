@@ -17,7 +17,7 @@ class ForgotPasswordBloc
             ForgotPasswordLoadedState(),
           );
         } else {
-          throw ("Phone number is not registered");
+          throw ("Nomor Telepon is not registered");
         }
       } catch (error, stackTrace) {
         print(error);

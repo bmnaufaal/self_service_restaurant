@@ -33,7 +33,7 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Payment Failed',
+              'Pembayaran Gagal',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 32,
@@ -49,7 +49,7 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Done',
+                title: 'Selesai',
                 onPressed: () {
                   Navigator.of(context).popUntil(
                     (route) => route.isFirst,

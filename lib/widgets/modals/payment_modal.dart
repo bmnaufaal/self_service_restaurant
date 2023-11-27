@@ -29,7 +29,7 @@ class _PaymentModalState extends State<PaymentModal> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Online Payment',
+                title: 'Pembayaran Online',
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
@@ -46,7 +46,7 @@ class _PaymentModalState extends State<PaymentModal> {
             SizedBox(
               width: 300,
               child: PrimaryButton(
-                title: 'Cashier Payment',
+                title: 'Pembayaran di kasir',
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(

@@ -37,7 +37,7 @@ class HomeScreen extends StatefulWidget {
   String? date;
   String? time;
   String? guest;
-  bool?isLoggedIn;
+  bool? isLoggedIn;
   String? userName;
   int? loyaltyPoints;
 
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ]
                     : [
                         Text(
-                          'Schedule Order - ${widget.date}:${widget.time} - ${widget.guest} Person',
+                          'Jadwal Pesanan- ${widget.date}:${widget.time} - ${widget.guest} Orang',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -562,7 +562,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                   height: 47,
                                   child: UserButton(
-                                    title: (isInvitee == true) ? 'Table 1' : '',
+                                    title: (isInvitee == true) ? 'Meja 1' : '',
                                     icon: Icons.person,
                                     onPressed: () {
                                       showDialog(

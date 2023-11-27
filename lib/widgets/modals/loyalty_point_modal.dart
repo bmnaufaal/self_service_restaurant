@@ -68,7 +68,10 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
             maxWidth: true,
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onSelected(pointsUsed, discountPercent,);
+              widget.onSelected(
+                pointsUsed,
+                discountPercent,
+              );
             },
           )
         ],
@@ -92,13 +95,13 @@ class _LoyaltyPointModalState extends State<LoyaltyPointModal> {
         child: Column(
           children: [
             Text(
-              '$points Points',
+              '$points Point',
               style: TextStyle(
                 color: selectedPoints == points ? Colors.white : Colors.white,
               ),
             ),
             Text(
-              'Discount $discount%',
+              'Diskon $discount%',
               style: TextStyle(
                 color: selectedPoints == points ? Colors.white : Colors.white,
               ),

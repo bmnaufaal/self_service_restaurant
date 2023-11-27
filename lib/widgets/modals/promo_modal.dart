@@ -27,7 +27,7 @@ class _PromoModalState extends State<PromoModal> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(
-            'Today\'s Special',
+            'Spesial Hari Ini',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 28,

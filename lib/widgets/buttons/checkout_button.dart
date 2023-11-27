@@ -39,7 +39,7 @@ class _CheckoutButtonState extends State<CheckoutButton> {
           widget.icon,
           color: Colors.white,
         ),
-        title: Text('${widget.itemCount} Item'),
+        title: Text('${widget.itemCount} Barang'),
         trailing: Text(
           NumberFormat.currency(
             locale: 'id_ID',
