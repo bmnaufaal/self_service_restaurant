@@ -62,7 +62,7 @@ class _CartScreenState extends State<CartScreen> {
               sum + ((item.price * (1 - loyaltyDiscount)) * item.count));
     }
 
-    return total.toInt();
+    return (widget.isJoinOrder == true) ? total.toInt() + 20000 : total.toInt();
   }
 
   int calculateTotalPriceWithDiscount(List<MenuItem> items, bool isLoggedIn) {
@@ -80,7 +80,7 @@ class _CartScreenState extends State<CartScreen> {
               sum + ((item.price * 0.9 * (1 - loyaltyDiscount)) * item.count));
     }
 
-    return total.toInt();
+    return (widget.isJoinOrder == true) ? total.toInt() + 20000 : total.toInt();
   }
 
   bool checkDiscount(int price, int memberPrice) {
@@ -158,6 +158,22 @@ class _CartScreenState extends State<CartScreen> {
               isCouponValid = true;
             }
 
+            if (state is ItemCouponLoadedState) {
+              Navigator.of(context).pop();
+              cart.add(
+                MenuItem(
+                  name: 'Jus Mangga Segar',
+                  price: 0,
+                  memberPrice: 0,
+                  category: 'category',
+                  description: 'description',
+                  image: 'jus_mangga.png',
+                  count: -1,
+                  tag: 'Beverage',
+                ),
+              );
+            }
+
             if (state is CouponErrorState) {
               showDialog(
                 context: context,
@@ -170,6 +186,7 @@ class _CartScreenState extends State<CartScreen> {
           builder: (context, state) {
             return PopScope(
               onPopInvoked: (bool didPop) {
+                cart.removeWhere((item) => item.count == -1);
                 widget.bloc.add(GetMenuItem(cart));
               },
               child: Scaffold(
@@ -364,76 +381,82 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Container(
-                                                padding: const EdgeInsets.only(
-                                                    right: 13),
-                                                child: CircleAvatar(
-                                                  backgroundColor: Colors.red,
-                                                  child: IconButton(
-                                                    color: Colors.white,
-                                                    onPressed: () {
-                                                      BlocProvider.of<CartBloc>(
-                                                              context)
-                                                          .add(DeleteItemCart(
-                                                        cart,
-                                                        cart[index].name,
-                                                      ));
-                                                    },
-                                                    icon: const Icon(
-                                                        Icons.delete),
+                                        if (cart[index].count != -1)
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 13),
+                                                  child: CircleAvatar(
+                                                    backgroundColor: Colors.red,
+                                                    child: IconButton(
+                                                      color: Colors.white,
+                                                      onPressed: () {
+                                                        BlocProvider.of<
+                                                                    CartBloc>(
+                                                                context)
+                                                            .add(DeleteItemCart(
+                                                          cart,
+                                                          cart[index].name,
+                                                        ));
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.delete),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      BlocProvider.of<CartBloc>(
-                                                              context)
-                                                          .add(RemoveCountCart(
-                                                        cart,
-                                                        cart[index].name,
-                                                      ));
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.remove,
-                                                      color: Colors.white,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        BlocProvider.of<
+                                                                    CartBloc>(
+                                                                context)
+                                                            .add(
+                                                                RemoveCountCart(
+                                                          cart,
+                                                          cart[index].name,
+                                                        ));
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.remove,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    cart[index]
-                                                        .count
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
+                                                    Text(
+                                                      cart[index]
+                                                          .count
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      BlocProvider.of<CartBloc>(
-                                                              context)
-                                                          .add(AddCountCart(
-                                                        cart,
-                                                        cart[index].name,
-                                                      ));
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.add,
-                                                      color: Colors.white,
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        BlocProvider.of<
+                                                                    CartBloc>(
+                                                                context)
+                                                            .add(AddCountCart(
+                                                          cart,
+                                                          cart[index].name,
+                                                        ));
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.add,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   );

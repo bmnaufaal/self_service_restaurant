@@ -13,6 +13,8 @@ class CouponBloc extends Bloc<CouponEvent, CouponState> {
       try {
         if (event.coupon == validCoupon) {
           emit(CouponLoadedState());
+        } else if (event.coupon == validCoupon2) {
+          emit(ItemCouponLoadedState());
         } else {
           throw ("Coupon is not valid");
         }

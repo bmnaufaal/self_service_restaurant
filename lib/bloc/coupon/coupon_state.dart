@@ -20,6 +20,11 @@ class CouponLoadedState extends CouponState {
   List<Object?> get props => [];
 }
 
+class ItemCouponLoadedState extends CouponState {
+  @override
+  List<Object?> get props => [];
+}
+
 class CouponErrorState extends CouponState {
   CouponErrorState(this.error);
   final String error;
