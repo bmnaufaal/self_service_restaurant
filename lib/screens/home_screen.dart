@@ -8,6 +8,7 @@ import 'package:lunapos_akpsi/bloc/menu/menu_bloc.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_event.dart';
 import 'package:lunapos_akpsi/bloc/menu/menu_state.dart';
 import 'package:lunapos_akpsi/models/menu_item.dart';
+import 'package:lunapos_akpsi/screens/account_order_screen.dart';
 import 'package:lunapos_akpsi/screens/cart_screen.dart';
 import 'package:lunapos_akpsi/widgets/alerts/error_alert.dart';
 import 'package:lunapos_akpsi/widgets/buttons/category_button.dart';
@@ -16,13 +17,29 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/buttons/user_button.dart';
 import 'package:lunapos_akpsi/widgets/inputs/custom_search_bar.dart';
 import 'package:lunapos_akpsi/widgets/list_items/item_card.dart';
-import 'package:lunapos_akpsi/widgets/modals/account_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/invite_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/login_modal.dart';
 import 'package:lunapos_akpsi/widgets/modals/promo_modal.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  HomeScreen({
+    super.key,
+    this.cart,
+    this.date,
+    this.time,
+    this.guest,
+    this.isLoggedIn,
+    this.userName,
+    this.loyaltyPoints,
+  });
+
+  List<MenuItem>? cart;
+  String? date;
+  String? time;
+  String? guest;
+  bool?isLoggedIn;
+  String? userName;
+  int? loyaltyPoints;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -52,6 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.cart != null) {
+      cart = widget.cart!;
+      isLoggedIn = widget.isLoggedIn!;
+      userName = widget.userName!;
+      loyaltyPoints = widget.loyaltyPoints!;
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showDialog(
         context: context,
@@ -161,108 +185,133 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.white,
               elevation: 0,
               title: Row(
-                children: [
-                  const Text(
-                    'LOGO',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  DropdownMenu<String>(
-                    inputDecorationTheme: const InputDecorationTheme(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      contentPadding: EdgeInsets.only(
-                        left: 5,
-                      ),
-                    ),
-                    width: 75,
-                    initialSelection: languages.first,
-                    onSelected: (String? value) {
-                      setState(() {
-                        selectedLanguage = value!;
-                      });
-                    },
-                    dropdownMenuEntries:
-                        languages.map<DropdownMenuEntry<String>>(
-                      (String value) {
-                        return DropdownMenuEntry<String>(
-                          value: value,
-                          label: value,
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ],
-              ),
-              centerTitle: false,
-              actions: [
-                if (isLoggedIn == false)
-                  Container(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: PrimaryButton(
-                      title: 'Masuk',
-                      icon: Icons.person_outline,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const LoginModal();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                if (isLoggedIn == true)
-                  TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.stars_outlined,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          loyaltyPoints.toString(),
-                          style: const TextStyle(
+                mainAxisAlignment: (widget.guest == null)
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.end,
+                children: (widget.guest == null)
+                    ? [
+                        const Text(
+                          'LOGO',
+                          style: TextStyle(
+                            fontSize: 32,
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                if (isLoggedIn == true)
-                  Container(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: PrimaryButton(
-                      title: userName,
-                      icon: Icons.person_outline,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AccountModal(
-                              name: userName,
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  isLoggedIn = !isLoggedIn;
-                                });
-                              },
-                            );
+                        const SizedBox(width: 8),
+                        DropdownMenu<String>(
+                          inputDecorationTheme: const InputDecorationTheme(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: 5,
+                            ),
+                          ),
+                          width: 80,
+                          initialSelection: languages.first,
+                          onSelected: (String? value) {
+                            setState(() {
+                              selectedLanguage = value!;
+                            });
                           },
-                        );
-                      },
-                    ),
-                  ),
-              ],
+                          dropdownMenuEntries:
+                              languages.map<DropdownMenuEntry<String>>(
+                            (String value) {
+                              return DropdownMenuEntry<String>(
+                                value: value,
+                                label: value,
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      ]
+                    : [
+                        Text(
+                          'Schedule Order - ${widget.date}:${widget.time} - ${widget.guest} Person',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                      ],
+              ),
+              centerTitle: false,
+              actions: (widget.guest == null)
+                  ? [
+                      if (isLoggedIn == false)
+                        Container(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: PrimaryButton(
+                            title: 'Masuk',
+                            icon: Icons.person_outline,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const LoginModal();
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      if (isLoggedIn == true)
+                        TextButton(
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.stars_outlined,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                loyaltyPoints.toString(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (isLoggedIn == true)
+                        Container(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: PrimaryButton(
+                            title: userName,
+                            icon: Icons.person_outline,
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (_) {
+                                  return AccountOrderScreen(
+                                    userName: userName,
+                                    loyaltyPoints: loyaltyPoints,
+                                  );
+                                }),
+                              );
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (context) {
+                              //     return AccountModal(
+                              //       name: userName,
+                              //       onPressed: () {
+                              //         Navigator.of(context).pop();
+                              //         setState(() {
+                              //           isLoggedIn = !isLoggedIn;
+                              //         });
+                              //       },
+                              //     );
+                              //   },
+                              // );
+                            },
+                          ),
+                        ),
+                    ]
+                  : [],
             ),
             body: BlocBuilder<MenuBloc, MenuState>(
               builder: (context, state) {

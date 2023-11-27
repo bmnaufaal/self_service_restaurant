@@ -100,7 +100,7 @@ class _SelfServiceAppState extends State<SelfServiceApp> {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -56,7 +56,7 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
                   );
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const HomeScreen(),
+                      builder: (BuildContext context) => HomeScreen(),
                     ),
                   );
                 },
