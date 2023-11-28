@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lunapos_akpsi/helper/formatter.dart';
 
 class FormInput extends StatefulWidget {
   FormInput({
-    super.key,
+    Key? key,
     required this.hintText,
     required this.controller,
     required this.validator,
@@ -13,16 +12,18 @@ class FormInput extends StatefulWidget {
     this.isDisabled,
     this.onChanged,
     this.uppercaseOnly,
+    this.focusNode, 
   });
 
   final String hintText;
   final TextEditingController controller;
   final String? Function(dynamic) validator;
-  bool? isPassword;
-  bool? isDisabled;
-  String? Function(dynamic)? onChanged;
-  Widget? icon;
-  bool? uppercaseOnly;
+  final bool? isPassword;
+  final bool? isDisabled;
+  final String? Function(dynamic)? onChanged;
+  final Widget? icon;
+  final bool? uppercaseOnly;
+  final FocusNode? focusNode; 
 
   @override
   State<FormInput> createState() {
@@ -62,8 +63,9 @@ class _FormInputState extends State<FormInput> {
       ),
       enabled: widget.isDisabled == true ? false : true,
       controller: widget.controller,
-      obscureText: !passwordVisible,
+      obscureText: widget.isPassword == true ? !passwordVisible : false,
       validator: widget.validator,
+      focusNode: widget.focusNode, // Use focusNode here
       decoration: InputDecoration(
         prefixIcon: widget.icon,
         hintText: widget.hintText,

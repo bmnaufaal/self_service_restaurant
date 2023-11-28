@@ -10,26 +10,36 @@ import 'package:lunapos_akpsi/widgets/inputs/form_input.dart';
 import 'package:lunapos_akpsi/widgets/modals/finish_register_modal.dart';
 
 class OTPModal extends StatefulWidget {
-  const OTPModal({super.key});
+  const OTPModal({Key? key}) : super(key: key);
 
   @override
   State<OTPModal> createState() => _OTPModalState();
 }
 
 class _OTPModalState extends State<OTPModal> {
-  final Map<String, TextEditingController> controller = {
-    'first': TextEditingController(),
-    'second': TextEditingController(),
-    'third': TextEditingController(),
-    'forth': TextEditingController(),
-    'fifth': TextEditingController(),
-    'sixth': TextEditingController(),
-  };
+  late List<TextEditingController> controllers;
+  late List<FocusNode> focusNodes;
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = List.generate(
+      6,
+      (index) => TextEditingController(),
+    );
+    focusNodes = List.generate(
+      6,
+      (index) => FocusNode(),
+    );
+  }
 
   @override
   void dispose() {
-    for (var controller in controller.values) {
+    for (var controller in controllers) {
       controller.dispose();
+    }
+    for (var focusNode in focusNodes) {
+      focusNode.dispose();
     }
     super.dispose();
   }
@@ -87,73 +97,28 @@ class _OTPModalState extends State<OTPModal> {
           content: SizedBox(
             width: 300,
             child: Row(
-              children: [
-                Expanded(
-                  child: FormInput(
-                    hintText: '',
-                    isPassword: true,
-                    controller: controller['first']!,
-                    validator: (value) {
-                      return null;
-                    },
+              children: List.generate(
+                6,
+                (index) => Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: FormInput(
+                      hintText: '',
+                      isPassword: true,
+                      controller: controllers[index],
+                      focusNode: focusNodes[index],
+                      onChanged: (value) {
+                        if (value.length == 1 && index < 5) {
+                          focusNodes[index + 1].requestFocus();
+                        }
+                      },
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
                   ),
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FormInput(
-                    hintText: '',
-                    isPassword: true,
-                    controller: controller['second']!,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FormInput(
-                    hintText: '',
-                    isPassword: true,
-                    controller: controller['third']!,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FormInput(
-                    hintText: '',
-                    isPassword: true,
-                    controller: controller['forth']!,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FormInput(
-                    hintText: '',
-                    isPassword: true,
-                    controller: controller['fifth']!,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FormInput(
-                    hintText: '',
-                    isPassword: true,
-                    controller: controller['sixth']!,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           actions: [
@@ -161,9 +126,10 @@ class _OTPModalState extends State<OTPModal> {
               title: 'Kirim',
               onPressed: () {
                 String otpValue = '';
-                controller.forEach((key, value) {
-                  otpValue += value.text;
+                controllers.forEach((controller) {
+                  otpValue += controller.text;
                 });
+                print(otpValue);
                 BlocProvider.of<OTPBloc>(context).add(PostOTP(otpValue));
               },
             )
