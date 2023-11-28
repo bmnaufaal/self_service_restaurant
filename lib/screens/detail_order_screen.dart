@@ -6,7 +6,7 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/payment_modal.dart';
 
 class DetailOrder extends StatefulWidget {
-  const DetailOrder({
+  DetailOrder({
     super.key,
     required this.cart,
     required this.loyaltyDiscount,
@@ -15,8 +15,10 @@ class DetailOrder extends StatefulWidget {
     required this.isJoinOrder,
     required this.isLoggedIn,
     required this.userName,
+    required this.onChangeLanguage,
   });
 
+  dynamic? onChangeLanguage;
   final List<MenuItem> cart;
   final int loyaltyDiscount;
   final int couponDiscount;
@@ -230,6 +232,7 @@ class _DetailOrderState extends State<DetailOrder> {
                       return PaymentModal(
                         isLoggedIn: widget.isLoggedIn,
                         totalPrice: calculateTotal(),
+                        onChangeLanguage: widget.onChangeLanguage,
                       );
                     },
                   );

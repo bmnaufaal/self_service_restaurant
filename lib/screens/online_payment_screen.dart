@@ -7,12 +7,14 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnlinePaymentScreen extends StatefulWidget {
-  const OnlinePaymentScreen({
+  OnlinePaymentScreen({
     super.key,
     required this.isLoggedIn,
     required this.totalPrice,
+    required this.onChangeLanguage,
   });
 
+  dynamic? onChangeLanguage;
   final bool isLoggedIn;
   final int totalPrice;
 
@@ -50,8 +52,9 @@ class _OnlinePaymentScreenState extends State<OnlinePaymentScreen> {
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) =>
-                        const PaymentFailedScreen(),
+                    builder: (BuildContext context) => PaymentFailedScreen(
+                      onChangeLanguage: widget.onChangeLanguage,
+                    ),
                   ),
                 );
               },
@@ -78,6 +81,7 @@ class _OnlinePaymentScreenState extends State<OnlinePaymentScreen> {
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => PaymentSuccessScreen(
                         isMember: widget.isLoggedIn,
+                        onChangeLanguage: widget.onChangeLanguage,
                       ),
                     ),
                   );

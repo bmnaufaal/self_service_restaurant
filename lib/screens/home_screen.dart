@@ -536,6 +536,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             points: loyaltyPoints,
                                             isJoinOrder: (isInvitee == true ||
                                                 isInviter == true),
+                                            onChangeLanguage:
+                                                widget.onChangeLanguage,
                                           );
                                         }),
                                       );

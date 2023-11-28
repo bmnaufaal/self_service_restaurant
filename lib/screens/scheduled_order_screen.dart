@@ -7,7 +7,12 @@ import 'package:lunapos_akpsi/widgets/inputs/number_input.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScheduledOrderScreen extends StatefulWidget {
-  const ScheduledOrderScreen({super.key});
+  ScheduledOrderScreen({
+    super.key,
+    required this.onChangeLanguage,
+  });
+
+  dynamic? onChangeLanguage;
 
   @override
   State<ScheduledOrderScreen> createState() => _ScheduledOrderScreenState();
@@ -170,6 +175,7 @@ class _ScheduledOrderScreenState extends State<ScheduledOrderScreen> {
                                 date: controller['date']!.text,
                                 time: controller['time']!.text,
                                 guest: controller['guest']!.text,
+                                onChangeLanguage: widget.onChangeLanguage,
                               );
                             },
                           ),

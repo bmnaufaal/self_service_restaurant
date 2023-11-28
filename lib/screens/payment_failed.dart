@@ -4,7 +4,12 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentFailedScreen extends StatefulWidget {
-  const PaymentFailedScreen({super.key});
+  PaymentFailedScreen({
+    super.key,
+    required this.onChangeLanguage,
+  });
+
+  dynamic? onChangeLanguage;
 
   @override
   State<PaymentFailedScreen> createState() => _PaymentFailedScreenState();
@@ -57,7 +62,9 @@ class _PaymentFailedScreenState extends State<PaymentFailedScreen> {
                   );
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => HomeScreen(),
+                      builder: (BuildContext context) => HomeScreen(
+                        onChangeLanguage: widget.onChangeLanguage,
+                      ),
                     ),
                   );
                 },

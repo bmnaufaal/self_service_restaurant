@@ -4,11 +4,13 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentSuccessScreen extends StatefulWidget {
-  const PaymentSuccessScreen({
+  PaymentSuccessScreen({
     super.key,
     required this.isMember,
+    required this.onChangeLanguage,
   });
 
+  dynamic? onChangeLanguage;
   final bool? isMember;
 
   @override
@@ -70,7 +72,9 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                   );
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => HomeScreen(),
+                      builder: (BuildContext context) => HomeScreen(
+                        onChangeLanguage: widget.onChangeLanguage,
+                      ),
                     ),
                   );
                 },

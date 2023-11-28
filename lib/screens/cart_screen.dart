@@ -29,8 +29,10 @@ class CartScreen extends StatefulWidget {
     required this.userName,
     required this.points,
     required this.isJoinOrder,
+    required this.onChangeLanguage,
   });
 
+  dynamic? onChangeLanguage;
   final List<MenuItem> cart;
   final MenuBloc bloc;
   final bool isLoggedIn;
@@ -682,6 +684,8 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                   isJoinOrder:
                                                       widget.isJoinOrder,
+                                                  onChangeLanguage:
+                                                      widget.onChangeLanguage,
                                                 );
                                               }),
                                             );

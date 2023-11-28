@@ -163,11 +163,13 @@ class _AccountOrderScreenState extends State<AccountOrderScreen> {
                   ),
                 ],
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(
                   children: [
-                    HistoryOrderScreen(),
-                    ScheduledOrderScreen(),
+                    const HistoryOrderScreen(),
+                    ScheduledOrderScreen(
+                      onChangeLanguage: widget.onChangeLanguage,
+                    ),
                   ],
                 ),
               ),

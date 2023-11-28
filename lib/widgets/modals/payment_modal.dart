@@ -5,12 +5,14 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentModal extends StatefulWidget {
-  const PaymentModal({
+  PaymentModal({
     super.key,
     required this.isLoggedIn,
     required this.totalPrice,
+    required this.onChangeLanguage,
   });
 
+  dynamic? onChangeLanguage;
   final bool isLoggedIn;
   final int totalPrice;
 
@@ -37,6 +39,7 @@ class _PaymentModalState extends State<PaymentModal> {
                       builder: (BuildContext context) => OnlinePaymentScreen(
                         isLoggedIn: widget.isLoggedIn,
                         totalPrice: widget.totalPrice,
+                        onChangeLanguage: widget.onChangeLanguage,
                       ),
                     ),
                   );
