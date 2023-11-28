@@ -11,7 +11,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(RegisterLoadingState());
 
       try {
-        if (event.controller['phoneNumber']?.text != validPhoneNumber &&
+        if ((event.controller['phoneNumber']?.text != validPhoneNumber ||
+                event.controller['phoneNumber']?.text == validPhoneNumber2) &&
             event.controller['password']?.text != '') {
           emit(
             RegisterLoadedState(

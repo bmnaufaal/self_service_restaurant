@@ -11,7 +11,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoadingState());
 
       try {
-        if (event.controller['phoneNumber']?.text == validPhoneNumber &&
+        if ((event.controller['phoneNumber']?.text == validPhoneNumber ||
+                event.controller['phoneNumber']?.text == validPhoneNumber2) &&
             event.controller['password']?.text == validPassword) {
           emit(
             LoginLoadedState(

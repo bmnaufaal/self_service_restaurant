@@ -12,7 +12,8 @@ class ForgotPasswordBloc
       emit(ForgotPasswordLoadingState());
 
       try {
-        if (event.phoneNumber == validPhoneNumber) {
+        if (event.phoneNumber == validPhoneNumber ||
+            event.phoneNumber == validPhoneNumber2) {
           emit(
             ForgotPasswordLoadedState(),
           );
