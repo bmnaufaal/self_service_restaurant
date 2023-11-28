@@ -69,7 +69,7 @@ class _DetailModalState extends State<DetailModal> {
             isDiscounted = checkDiscount(price, memberPrice!);
 
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.85,
               width: double.infinity,
               child: Container(
                 padding: const EdgeInsets.all(15),
@@ -169,7 +169,7 @@ class _DetailModalState extends State<DetailModal> {
                           );
                         },
                       ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),

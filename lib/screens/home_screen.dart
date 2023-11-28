@@ -544,6 +544,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Expanded(
                               flex: 2,
                               child: Container(

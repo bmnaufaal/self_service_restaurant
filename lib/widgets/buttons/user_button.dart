@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class UserButton extends StatefulWidget {
   const UserButton({
@@ -22,7 +21,6 @@ class _UserButtonState extends State<UserButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 19),
         backgroundColor: const Color(0xFF53387D),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -34,6 +32,7 @@ class _UserButtonState extends State<UserButton> {
               widget.title,
               style: const TextStyle(
                 color: Colors.white,
+                fontSize: 12,
               ),
             )
           : Icon(
