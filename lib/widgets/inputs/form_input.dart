@@ -74,7 +74,7 @@ class _FormInputState extends State<FormInput> {
         ),
         filled: true,
         fillColor: widget.isDisabled == true
-            ? const Color.fromARGB(255, 252, 238, 238)
+            ? const Color.fromARGB(255, 241, 238, 252)
             : Colors.white,
         errorStyle: const TextStyle(
           height: 0,

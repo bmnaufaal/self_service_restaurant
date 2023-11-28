@@ -167,9 +167,9 @@ class _DetailOrderState extends State<DetailOrder> {
             const Divider(),
             if (widget.loyaltyDiscount != 0)
               ListTile(
-                leading: const Text(
-                  'Loyalty Discount',
-                  style: TextStyle(
+                leading: Text(
+                  'Loyalty ${AppLocalizations.of(context)!.discount}',
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.green,
                   ),
@@ -186,9 +186,9 @@ class _DetailOrderState extends State<DetailOrder> {
               ),
             if (widget.couponDiscount != 0)
               ListTile(
-                leading: const Text(
-                  'Coupon Discount',
-                  style: TextStyle(
+                leading: Text(
+                  '${AppLocalizations.of(context)!.coupon} ${AppLocalizations.of(context)!.discount}',
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.green,
                   ),
@@ -222,7 +222,7 @@ class _DetailOrderState extends State<DetailOrder> {
             SizedBox(
               width: double.infinity,
               child: PrimaryButton(
-                title: 'Checkout',
+                title: AppLocalizations.of(context)!.checkout,
                 onPressed: () {
                   showDialog(
                     context: context,
