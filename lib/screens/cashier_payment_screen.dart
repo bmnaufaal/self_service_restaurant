@@ -4,7 +4,12 @@ import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CashierPaymentScreen extends StatefulWidget {
-  const CashierPaymentScreen({super.key});
+  CashierPaymentScreen({
+    super.key,
+    required this.onChangeLanguage,
+  });
+
+  dynamic? onChangeLanguage;
 
   @override
   State<CashierPaymentScreen> createState() => _CashierPaymentScreenState();
@@ -57,7 +62,9 @@ class _CashierPaymentScreenState extends State<CashierPaymentScreen> {
                   );
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => HomeScreen(),
+                      builder: (BuildContext context) => HomeScreen(
+                        onChangeLanguage: widget.onChangeLanguage,
+                      ),
                     ),
                   );
                 },

@@ -552,7 +552,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Container(
                                 alignment: Alignment.bottomCenter,
                                 child: SizedBox(
-                                  height: 47,
                                   child: UserButton(
                                     title: (isInvitee == true)
                                         ? '${AppLocalizations.of(context)!.table} 1'

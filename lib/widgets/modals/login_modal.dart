@@ -68,6 +68,7 @@ class _LoginModalState extends State<LoginModal> {
             ),
             FormInput(
               hintText: '',
+              isNumberOnly: true,
               controller: controller['phoneNumber']!,
               validator: (value) {
                 return null;

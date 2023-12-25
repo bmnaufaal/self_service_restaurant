@@ -96,8 +96,9 @@ class _OnlinePaymentScreenState extends State<OnlinePaymentScreen> {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const CashierPaymentScreen(),
+                      builder: (BuildContext context) => CashierPaymentScreen(
+                        onChangeLanguage: widget.onChangeLanguage,
+                      ),
                     ),
                   );
                 },

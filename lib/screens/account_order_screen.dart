@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunapos_akpsi/screens/history_order_screen.dart';
+import 'package:lunapos_akpsi/screens/home_screen.dart';
 import 'package:lunapos_akpsi/screens/scheduled_order_screen.dart';
 import 'package:lunapos_akpsi/widgets/buttons/primary_button.dart';
 import 'package:lunapos_akpsi/widgets/modals/account_modal.dart';
@@ -133,7 +134,16 @@ class _AccountOrderScreenState extends State<AccountOrderScreen> {
                       return AccountModal(
                         name: userName,
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).popUntil(
+                            (route) => route.isFirst,
+                          );
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => HomeScreen(
+                                onChangeLanguage: widget.onChangeLanguage,
+                              ),
+                            ),
+                          );
                           setState(() {
                             isLoggedIn = !isLoggedIn;
                           });

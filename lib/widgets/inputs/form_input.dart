@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lunapos_akpsi/helper/formatter.dart';
 
 class FormInput extends StatefulWidget {
@@ -12,7 +13,8 @@ class FormInput extends StatefulWidget {
     this.isDisabled,
     this.onChanged,
     this.uppercaseOnly,
-    this.focusNode, 
+    this.focusNode,
+    this.isNumberOnly,
   });
 
   final String hintText;
@@ -23,7 +25,8 @@ class FormInput extends StatefulWidget {
   final String? Function(dynamic)? onChanged;
   final Widget? icon;
   final bool? uppercaseOnly;
-  final FocusNode? focusNode; 
+  final FocusNode? focusNode;
+  bool? isNumberOnly;
 
   @override
   State<FormInput> createState() {
@@ -57,7 +60,11 @@ class _FormInputState extends State<FormInput> {
           ? [
               UpperCaseTextFormatter(),
             ]
-          : null,
+          : (widget.isNumberOnly == true)
+              ? [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                ]
+              : null,
       scrollPadding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
@@ -68,6 +75,18 @@ class _FormInputState extends State<FormInput> {
       focusNode: widget.focusNode, // Use focusNode here
       decoration: InputDecoration(
         prefixIcon: widget.icon,
+        suffixIcon: widget.isPassword == true
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    togglePasswordVisibility();
+                  });
+                },
+                icon: passwordVisible == true
+                    ? const Icon(Icons.remove_red_eye)
+                    : const Icon(Icons.remove_red_eye_outlined),
+              )
+            : null,
         hintText: widget.hintText,
         hintStyle: const TextStyle(
           fontWeight: FontWeight.w400,

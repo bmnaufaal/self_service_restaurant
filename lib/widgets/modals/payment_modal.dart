@@ -54,8 +54,9 @@ class _PaymentModalState extends State<PaymentModal> {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const CashierPaymentScreen(),
+                      builder: (BuildContext context) => CashierPaymentScreen(
+                        onChangeLanguage: widget.onChangeLanguage,
+                      ),
                     ),
                   );
                 },
